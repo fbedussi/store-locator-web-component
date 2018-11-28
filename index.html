@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css"/>
+    </head>
+    <body>
+        <div class="leftPanel">
+            <search-box></search-box>
+            <results-number>
+                        <div>No store found, check che search query</div>
+                    </results-number>
+            <filter-panel><div class="filter-bar_header">
+                <button class="filter-panel_toggleBtn" onclick="return document._componentRegistry[5]['handleToggle'](event)">Filter results</button>
+                <button class="filter-panel_resetBtn invisible" onclick="return document._componentRegistry[5]['handleReset'](event)">reset filters</button>
+            </div>
+            
+                <collapsable-tab open="false">
+                    <ul>
+                    
+                    </ul>
+                </collapsable-tab></filter-panel>
+            <div class="storesAndStoreDetails">
+                <stores-list>
+              <ul>
+                
+              </ul>
+            </stores-list>
+                <store-details>
+                <style>
+                    .storeDetails {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: red;
+                    }
+                </style>
+                <div class="storeDetails hidden">
+                    <button onclick="return document._componentRegistry[6]['closePanel'](event)">close</button>
+                    
+                </div>
+            </store-details>
+            </div>
+        </div>
+        <stores-map></stores-map>
+
+        <!-- load webcomponents bundle, which includes all the necessary polyfills -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.1.3/webcomponents-bundle.min.js"></script>  -->
+        <!-- <script src="hyperHtml-umd.js"></script> -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/morphdom@2.3.3/dist/morphdom.min.js"></script> -->
+        <script src="morphdom-umd.js"></script>
+        <script src="index.js" type="module"></script>
+    </body>
+</html>

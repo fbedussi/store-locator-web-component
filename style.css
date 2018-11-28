@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+}
+
+.leftPanel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.storesAndStoreDetails {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+}
+
+stores-list ul {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+stores-map {
+    flex: 3;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+@keyframes slide-out-right {
+    0% {
+        transform: translateX(0);        
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+.invisible {
+    opacity: 0;
+}
+.visible {
+    opacity: 1;
+}
+.fade-in {
+    animation: fade-in 0.4s forwards;
+}
+.fade-out {
+    animation: fade-out 0.4s forwards;
+}
+.slide-in-left {
+    animation: slide-in-left 0.4s forwards;
+}
+.slide-out-right {
+    animation: slide-out-right 0.4s forwards;
+}
+.hidden {
+    display: none !important;    
+}
