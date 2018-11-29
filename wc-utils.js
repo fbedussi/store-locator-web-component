@@ -74,7 +74,7 @@ export function extendComponent(clazz, attributes = []) {
     }
 
     clazz.prototype.setState = function(stateUpdate) {
-        this.state = this.state ? {...this.state, stateUpdate} : {...stateUpdate};
+        this.state = this.state ? {...this.state, ...stateUpdate} : {...stateUpdate};
         this.render(this.state);
     }
 
