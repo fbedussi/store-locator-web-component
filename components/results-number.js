@@ -15,24 +15,25 @@ class ResultsNumber extends HTMLElement {
 
     render(stores = []) {
         const numebrOfSelectedStores = stores.filter((store) => store.visible).length;
+        let text = 'No store found, check che search query';
+        
         switch (numebrOfSelectedStores) {
-            case 0:
-                this.innerHTML = /*html*/ `
-                    <div>No store found, check che search query</div>
-                `;
-                break;
             case 1:
-                this.innerHTML = /*html*/ `
-                    <div>1 store found</div>
-                `;
+                text = '1 store found';
                 break;
-
+            
             default:
-                this.innerHTML = /*html*/ `
-                    <div>${numebrOfSelectedStores} stores found</div>
-                `;
+                text = `${numebrOfSelectedStores} stores found`;
                 break;
         }
+        this.innerHTML = /*html*/ `
+            <style>
+                results-number {
+                    padding: var(--padding);
+                }
+            </style>
+            <div>${text}</div>
+        `;
     }
 }
 

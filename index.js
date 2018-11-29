@@ -31,4 +31,13 @@ fetch('data/locations.json')
     });
 
 decodeRoute();
+
+document.body.addEventListener('keydown', function(ev) {
+    if (ev.keyCode === 9) {
+        document.body.classList.add('keyboardNavigation');
+    }
+});
+document.body.addEventListener('click', function(ev) {
+    document.body.classList.remove('keyboardNavigation');
+})
 window.onpopstate = decodeRoute;

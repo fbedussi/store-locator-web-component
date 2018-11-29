@@ -5,15 +5,26 @@
     box-sizing: border-box;
 }
 
-button {
+body:not(.keyboardNavigation) *:focus {
+    outline: none;
+}
+
+button,
+input {
     background: none;
     border: none;
     font-size: inherit;
     font-family: inherit;
     border-radius: 0;
+    height: var(--input-height)
 }
 
 /*common styles*/
+:root {
+    --input-height: 2.5rem;
+    --padding: 0.5rem;
+}
+
 .visuallyHidden {
     border: none;
     clip: rect(0 0 0 0);
@@ -25,9 +36,17 @@ button {
     width: 1px;
 }
 
+.btn {
+    border: solid 1px lightgray;
+    display: inline-block;
+    padding: var(--padding);
+
+}
+
 .iconButton {
-    width: 1em;
-    height: 1em;
+    width: var(--input-height);
+    height: var(--input-height);
+    padding: var(--padding);
 }
 
 .iconButton svg {
@@ -42,20 +61,29 @@ body {
 }
 
 body {
-    display: flex;
+    font-family: 'Lato', sans-serif;
 }
 
 .leftPanel {
-    height: 100%;
     display: flex;
     flex-direction: column;
+    margin: var(--padding);
+    padding: var(--padding);
+    position: absolute;
+    z-index: 10;
+    background-color: white;
+    height: calc(100vh - (var(--padding) * 2));
+    box-shadow: 4px 4px 4px lightgray;    
 }
 
 .storesAndStoreDetails {
     position: relative;
-    flex: 1;
     overflow: hidden;
+    flex: 1;
+    width: 23.5rem;
 }
+
+/*left panel*/
 
 stores-list ul {
     height: 100%;

@@ -13,6 +13,7 @@ import {
 } from '../state/actions.js';
 import defaultState from '../state/state.js';
 import './collapsable-tab.js';
+import ArrowDown from './icons/arrowDown.js';
 
 class FilterPanel extends HTMLElement {
     constructor() {
@@ -32,10 +33,34 @@ class FilterPanel extends HTMLElement {
         const prevFilterPanelOpen = oldState ? oldState.ui.filterPanelOpen : undefined;
         const selectedStoreTypesId = state.filters.storeTypes;
 
-        this.html(/*html*/`<div class="filter-bar_header">
-                <button class="filter-panel_toggleBtn" onclick="${this.getHandlerRef(this.handleToggle)}">Filter results</button>
+        this.html(/*html*/`
+            <style>
+                filter-panel {
+                    padding: var(--padding);
+                }
+                .filter-panel_toggleBtn {
+                    display: inline-flex;
+                    align-items: center;
+                }
+                .filter-panel_toggleBtn_text {
+                    margin-right: 0.5rem;
+                }
+                .filter-panel_arrow svg {
+                    width: var(--input-height);
+                    height: auto;
+                    transition: transform 400ms;
+                }
+                .open .filter-panel_arrow svg {
+                    transform: rotate(180deg);
+                }
+            </style>
+            <div class="filter-bar_header">
+                <button class="${`filter-panel_toggleBtn${filterPanelOpen ? ' open' : ''}`}" onclick="${this.getHandlerRef(this.handleToggle)}">
+                    <span class="filter-panel_toggleBtn_text">Filter results</span>
+                    <span class="icon filter-panel_arrow">${ArrowDown()}</span>
+                </button>
                 <button 
-                    class="filter-panel_resetBtn ${getAnimationClass(filterPanelOpen, prevFilterPanelOpen, ['invisible', 'fade-in', 'visible', 'fade-out'])}" 
+                    class="btn filter-panel_resetBtn ${getAnimationClass(filterPanelOpen, prevFilterPanelOpen, ['invisible', 'fade-in', 'visible', 'fade-out'])}" 
                     onclick="${this.getHandlerRef(this.handleReset)}"
                 >reset filters</button>
             </div>

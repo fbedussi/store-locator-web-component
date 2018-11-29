@@ -121,7 +121,7 @@ export function extendComponent(clazz, attributes = []) {
 
     clazz.prototype.html = function(newDomStr) {
         const newDomParsed = parser.parseFromString(newDomStr, 'text/html');
-        let newDomWithStyle = newDomParsed;
+        let newDomWithStyle = newDomParsed.body;
         if (newDomParsed.head.children.length) {
             newDomWithStyle = newDomParsed.head;
             [].forEach.call(newDomParsed.body.childNodes, (el) => newDomWithStyle.appendChild(el));

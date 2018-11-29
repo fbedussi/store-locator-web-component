@@ -25,11 +25,16 @@ class StoresList extends HTMLElement {
 
     render(stores = []) {
         this.innerHTML = /*html*/ `
-          <ul>
-            ${stores
-                .filter((store) => store.visible)
-                .map((store) => /*html*/`<li onclick="${this.getHandlerRef(this.handleStoreClick, store)}">${store.name}</li>`).join('')}
-          </ul>
+            <style>
+                stores-list ul {
+                    padding: var(--padding);
+                }
+            </style>
+            <ul>
+                ${stores
+                    .filter((store) => store.visible)
+                    .map((store) => /*html*/`<li onclick="${this.getHandlerRef(this.handleStoreClick, store)}">${store.name}</li>`).join('')}
+            </ul>
         `;
     }
 

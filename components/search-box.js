@@ -28,18 +28,69 @@ class SeachBox extends HTMLElement {
     }
 
     render(searchTerm = '') {
-        this.html(/*html*/ `<style>
-                .searchIcon {
-                    width: 1em;
-                    height: 1em;
-                }
-            </style>
+        this.html(/*html*/ `
+        <style>
+            search-box {
+                position: relative;
+                --border-thickness: 2px;
+                --search-input-width: 15rem;
+            }
+            .searchInputAndButtons {
+                display: flex;
+            }
+            .searchInputAndIcons {
+                display: flex;
+                border: solid var(--border-thickness) black;
+                margin-right: 0.5rem;
+            }
+            search-suggestions {
+                position: absolute;
+                left: calc(var(--input-height) + var(--border-thickness));
+                width: var(--search-input-width);
+            }
+            search-suggestions [open="true"] ul {
+                border: solid 1px lightgray;
+                box-shadow: 2px 2px 2px lightgray;
+            }
+            search-suggestions ul {
+                background-color: white;
+                padding: var(--padding);
+            }
+            .searchIcon {
+                width: var(--input-height);
+                height: var(--input-height);
+                padding: var(--padding);
+            }
+            .searchInput {
+                padding: var(--padding);
+                width: var(--search-input-width);
+            }
+            .geolocalizeIcon {
+                height: calc(var(--input-height) + (var(--border-thickness) * 2));
+                width: calc(var(--input-height) + (var(--border-thickness) * 2));
+            }
+        </style>
+        <div class="searchInputAndButtons">
             <label for="searchInput" class="visuallyHidden">Cerca un negozio</label>
-            ${SearchIcon()}
-            <input id="searchInput" type="text" placeholder="Inserisci una località" oninput="${this.getHandlerRef(this.handleInput)}" value="${searchTerm}"/>
-            ${IconButton({icon: RemoveIcon(), label: 'clear search', clickHandler: this.getHandlerRef(this.handleReset)})}
-            ${IconButton({icon: GeolocalizeIcon(), label: 'geolocate me', clickHandler: this.getHandlerRef(this.handleReset)})}
-            ${this.renderChildComponent('search-suggestions')}`);
+            <div class="searchInputAndIcons">
+                ${SearchIcon()}
+                <input id="searchInput" class="searchInput" type="text" placeholder="Inserisci una località" oninput="${this.getHandlerRef(this.handleInput)}" value="${searchTerm}"/>
+                ${IconButton({
+                    icon: RemoveIcon(), 
+                    label: 'clear search', 
+                    clickHandler: this.getHandlerRef(this.handleReset), 
+                    cssClass: "clearSearch"
+                })}
+            </div>
+            ${IconButton({
+                icon: GeolocalizeIcon(), 
+                label: 'geolocate me', 
+                clickHandler: this.getHandlerRef(this.handleReset), 
+                cssClass: 'btn geolocalizeIcon'
+            })}
+        </div>
+        ${this.renderChildComponent('search-suggestions')}
+                    `);
     }
     
     handleInput(ev) {
