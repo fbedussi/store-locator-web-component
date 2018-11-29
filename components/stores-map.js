@@ -1,4 +1,4 @@
-import { getState, subscribePartialState } from '../state/state-manager.js';
+import { dispatch, getState, subscribePartialState } from '../state/state-manager.js';
 import MarkerClusterer from '../vendor/marker-clusterer.js';
 import {throttle} from '../utils.js';
 
@@ -55,6 +55,11 @@ class StoresMap extends HTMLElement {
         const googleMapsJsNode = document.createElement('script');
         googleMapsJsNode.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCRTnC96aFUTP62mNuxDBUoHcLvR35MLOI&callback=initGoogleMap';
         this.appendChild(googleMapsJsNode);
+    }
+
+    bindEvents() {
+      this.map.addListener('dragend', this.dispatchUpdatedCoords.bind(this));
+      this.map.addListener('zoom-update', this.dispatchUpdatedCoords.bind(this));
     }
 
     init() {
@@ -260,6 +265,8 @@ class StoresMap extends HTMLElement {
             this.resetMarkers();
             this.setMarkers();
         }, 0));
+
+        this.bindEvents();
     }
 
     setMarkers() {
@@ -295,6 +302,26 @@ class StoresMap extends HTMLElement {
       });
         
       this.markers = [];
+    }
+
+    dispatchUpdatedCoords() {
+      dispatch({
+        type: 'UPDATE_COORDS',
+        coords: {
+          center: {
+            lat: this.map.center.lat(),
+            lng: this.map.center.lng()
+          },
+          ne: {
+            lat: this.map.getBounds().getNorthEast().lat(),
+            lng: this.map.getBounds().getNorthEast().lng()
+          },
+          sw: {
+            lat: this.map.getBounds().getSouthWest().lat(),
+            lng: this.map.getBounds().getSouthWest().lng()
+          }
+        }
+      });   
     }
 }
 
