@@ -1,9 +1,41 @@
+/*reset*/
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+button {
+    background: none;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    border-radius: 0;
+}
+
+/*common styles*/
+.visuallyHidden {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.iconButton {
+    width: 1em;
+    height: 1em;
+}
+
+.iconButton svg {
+    width: 100%;
+    height: auto;
+}
+
+/*page layout*/
 html,
 body {
     height: 100%;

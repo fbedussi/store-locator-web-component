@@ -120,8 +120,13 @@ export function extendComponent(clazz, attributes = []) {
     }
 
     clazz.prototype.html = function(newDomStr) {
-        const newDom = parser.parseFromString(newDomStr, 'text/html');
-        morphdom(this, newDom.body, {childrenOnly: true});
+        const newDomParsed = parser.parseFromString(newDomStr, 'text/html');
+        let newDomWithStyle = newDomParsed;
+        if (newDomParsed.head.children.length) {
+            newDomWithStyle = newDomParsed.head;
+            [].forEach.call(newDomParsed.body.childNodes, (el) => newDomWithStyle.appendChild(el));
+        }
+        morphdom(this, newDomWithStyle, {childrenOnly: true});
     }
 
     clazz.prototype.renderChildComponent = function(componentTag) {

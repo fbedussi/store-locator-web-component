@@ -6,25 +6,10 @@
     <body>
         <div class="leftPanel">
             <search-box></search-box>
-            <results-number>
-                        <div>No store found, check che search query</div>
-                    </results-number>
-            <filter-panel><div class="filter-bar_header">
-                <button class="filter-panel_toggleBtn" onclick="return document._componentRegistry[5]['handleToggle'](event)">Filter results</button>
-                <button class="filter-panel_resetBtn invisible" onclick="return document._componentRegistry[5]['handleReset'](event)">reset filters</button>
-            </div>
-            
-                <collapsable-tab open="false">
-                    <ul>
-                    
-                    </ul>
-                </collapsable-tab></filter-panel>
+            <results-number></results-number>
+            <filter-panel></filter-panel>
             <div class="storesAndStoreDetails">
-                <stores-list>
-              <ul>
-                
-              </ul>
-            </stores-list>
+                <stores-list></stores-list>
                 <store-details>
                 <style>
                     .storeDetails {

@@ -10,6 +10,10 @@ import {
 } from '../wc-utils.js';
 
 import './search-suggestions.js';
+import IconButton from './ui/icon-button.js';
+import SearchIcon from './icons/search.js';
+import RemoveIcon from './icons/remove.js';
+import GeolocalizeIcon from './icons/geolocalize.js';
 
 class SeachBox extends HTMLElement {
     constructor() {
@@ -24,16 +28,17 @@ class SeachBox extends HTMLElement {
     }
 
     render(searchTerm = '') {
-        this.html(/*html*/ `<label for="searchInput" class="visuallyHidden">Cerca un negozio</label>
+        this.html(/*html*/ `<style>
+                .searchIcon {
+                    width: 1em;
+                    height: 1em;
+                }
+            </style>
+            <label for="searchInput" class="visuallyHidden">Cerca un negozio</label>
+            ${SearchIcon()}
             <input id="searchInput" type="text" placeholder="Inserisci una località" oninput="${this.getHandlerRef(this.handleInput)}" value="${searchTerm}"/>
-            <button id="resetSearchBtn" onclick="${this.getHandlerRef(this.handleReset)}">
-                <span class="icon"></span>
-                <span class="visuallyHidden">x</span>
-            </button>
-            <button id="geolocationBtn">
-                <span class="icon"></span>
-                <span class="visuallyHidden">Geolocalizzami</span>
-            </button>
+            ${IconButton({icon: RemoveIcon(), label: 'clear search', clickHandler: this.getHandlerRef(this.handleReset)})}
+            ${IconButton({icon: GeolocalizeIcon(), label: 'geolocate me', clickHandler: this.getHandlerRef(this.handleReset)})}
             ${this.renderChildComponent('search-suggestions')}`);
     }
     
