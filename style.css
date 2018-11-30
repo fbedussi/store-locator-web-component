@@ -142,6 +142,9 @@ body {
 }
 
 .hidden {
-    /* display: none !important;     */
-    visibility: hidden !important;
+    display: none !important;    
+}
+
+.hiddenLight {
+    visibility: hidden;
 }

@@ -14,12 +14,12 @@ class LeftPanel extends HTMLElement {
 
     connectedCallback() {
         subscribePartialState('ui.searchLayerOpen', (state, oldState) => {
-            this.className = getAnimationClass(state.ui.searchLayerOpen, oldState && oldState.ui.searchLayerOpen, ['hidden', 'slide-in-left', '', 'slide-out-right'])
+            this.className = getAnimationClass(state.ui.searchLayerOpen, oldState && oldState.ui.searchLayerOpen, ['hiddenLight', 'slide-in-left', '', 'slide-out-right'])
         })
         this.render();
         this.addEventListener('animationend', function() {
             const state = getState();
-            this.className = getAnimationClass(state.ui.searchLayerOpen, state.ui.searchLayerOpen, ['hidden', 'slide-in-left', '', 'slide-out-right'])
+            this.className = getAnimationClass(state.ui.searchLayerOpen, state.ui.searchLayerOpen, ['hiddenLight', 'slide-in-left', '', 'slide-out-right'])
         });
         this.addEventListener('touchstart', (ev) => {
             this.touchStart = ev.touches[0].clientX;
@@ -55,9 +55,10 @@ class LeftPanel extends HTMLElement {
                 }
                 
                 @media screen and (min-width: ${desktopMinWidth}) {
+                    left-panel.hiddenLight,
                     left-panel {
-                        display: block;
-                        transform: translateX(0);
+                        visibility: visible;
+                        animation: slide-in-left;
                         width: 24rem;
                     }
                 }
