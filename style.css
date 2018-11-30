@@ -99,7 +99,7 @@ body {
 
 @keyframes slide-in-left {
     0% {
-        transform: translateX(-110%);
+        transform: translateX(-105%);
     }
 
     100% {
@@ -113,7 +113,7 @@ body {
     }
 
     100% {
-        transform: translateX(-110%);
+        transform: translateX(-105%);
     }
 }
 
@@ -126,15 +126,15 @@ body {
 }
 
 .fade-in {
-    animation: fade-in 0.4s forwards;
+    animation: fade-in 0.3s forwards;
 }
 
 .fade-out {
-    animation: fade-out 0.4s forwards;
+    animation: fade-out 0.3s forwards;
 }
 
 .slide-in-left {
-    animation: slide-in-left 0.4s forwards;
+    animation: slide-in-left 0.3s forwards;
 }
 
 .slide-out-right {
@@ -142,5 +142,6 @@ body {
 }
 
 .hidden {
-    display: none !important;    
+    /* display: none !important;     */
+    visibility: hidden !important;
 }

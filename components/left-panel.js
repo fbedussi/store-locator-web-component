@@ -1,4 +1,5 @@
 import {
+    getState,
     dispatch,
     subscribePartialState,
 } from '../state/state-manager.js';
@@ -16,10 +17,13 @@ class LeftPanel extends HTMLElement {
             this.className = getAnimationClass(state.ui.searchLayerOpen, oldState && oldState.ui.searchLayerOpen, ['hidden', 'slide-in-left', '', 'slide-out-right'])
         })
         this.render();
+        this.addEventListener('animationend', function() {
+            const state = getState();
+            this.className = getAnimationClass(state.ui.searchLayerOpen, state.ui.searchLayerOpen, ['hidden', 'slide-in-left', '', 'slide-out-right'])
+        });
         this.addEventListener('touchstart', (ev) => {
             this.touchStart = ev.touches[0].clientX;
         });
-
         this.addEventListener('touchend', (ev) => {
             if (this.touchStart - ev.changedTouches[0].clientX > 100) {
                 dispatch(toggleSearchLayerAction());
@@ -41,6 +45,7 @@ class LeftPanel extends HTMLElement {
                     height: calc(100vh - (var(--padding) * 2));
                     width: calc(100% - (var(--padding) * 2));
                     box-shadow: 4px 4px 4px lightgray;
+                    will-change: transform;
                 }
 
                 .storesAndStoreDetails {
