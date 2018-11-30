@@ -31,9 +31,7 @@ class SeachBox extends HTMLElement {
         this.html(/*html*/ `
         <style>
             search-box {
-                position: relative;
                 --border-thickness: 2px;
-                --search-input-width: 15rem;
                 margin-bottom: 1rem;
             }
             .searchInputAndButtons {
@@ -43,11 +41,14 @@ class SeachBox extends HTMLElement {
                 display: flex;
                 border: solid var(--border-thickness) black;
                 margin-right: 0.5rem;
+                flex: 1;
             }
             search-suggestions {
                 position: absolute;
-                left: calc(var(--input-height) + var(--border-thickness));
-                width: var(--search-input-width);
+                left: 0;
+                width: 100%;
+                bottom: 0;
+                transform: translateY(calc(100% + 1px));
             }
             search-suggestions [open="true"] ul {
                 border: solid 1px lightgray;
@@ -63,8 +64,8 @@ class SeachBox extends HTMLElement {
                 padding: var(--padding);
             }
             .searchInput {
-                padding: var(--padding);
-                width: var(--search-input-width);
+                flex: 1;
+                position: relative;
             }
             .geolocalizeIcon {
                 height: calc(var(--input-height) + (var(--border-thickness) * 2));
@@ -75,7 +76,10 @@ class SeachBox extends HTMLElement {
             <label for="searchInput" class="visuallyHidden">Cerca un negozio</label>
             <div class="searchInputAndIcons">
                 ${SearchIcon()}
-                <input id="searchInput" class="searchInput" type="text" placeholder="Inserisci una località" oninput="${this.getHandlerRef(this.handleInput)}" value="${searchTerm}"/>
+                <div class="searchInput">
+                    <input id="searchInput" type="text" placeholder="Inserisci una località" oninput="${this.getHandlerRef(this.handleInput)}" value="${searchTerm}"/>
+                    ${this.renderChildComponent('search-suggestions')}
+                </div>
                 ${IconButton({
                     icon: RemoveIcon(), 
                     label: 'clear search', 
@@ -90,7 +94,6 @@ class SeachBox extends HTMLElement {
                 cssClass: 'btn geolocalizeIcon'
             })}
         </div>
-        ${this.renderChildComponent('search-suggestions')}
                     `);
     }
     

@@ -5,6 +5,7 @@ export default {
     ui: {
         filterPanelOpen: false,
         resultPanelOpen: true,
+        searchLayerOpen: false,
     },
     searchTerm: '',
     openeStore: null,

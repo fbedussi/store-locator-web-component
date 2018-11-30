@@ -8,6 +8,7 @@ import {
     RESET_STORE_TYPES,
     TOGGLE_STORE_TYPE,
     OPEN_STORE_DETAILS,
+    TOGGLE_SEARCH_LAYER,
 } from './actionTypes.js';
 
 export const loadStoresAction = (stores) => ({ type: LOAD_STORES, stores });
@@ -27,3 +28,5 @@ export const toggleStoreTypeAction = (storeTypeId) => ({ type: TOGGLE_STORE_TYPE
 export const resetStoreTypesAction = () => ({ type: RESET_STORE_TYPES });
 
 export const openStoreDetailsAction = (store) => ({type: OPEN_STORE_DETAILS, store});
+
+export const toggleSearchLayerAction = () => ({type: TOGGLE_SEARCH_LAYER});

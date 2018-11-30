@@ -4,3 +4,5 @@ export const iconForText = `
     margin-right: 0.5rem;
     display: inline-block;
     vertical-align: middle;`;
+
+export const desktopMinWidth = '900px';

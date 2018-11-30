@@ -6,31 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div class="leftPanel">
-            <mobile-button></mobile-button>
-            <search-box></search-box>
-            <results-number></results-number>
-            <filter-panel></filter-panel>
-            <div class="storesAndStoreDetails">
-                <stores-list></stores-list>
-                <store-details>
-                <style>
-                    .storeDetails {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: red;
-                    }
-                </style>
-                <div class="storeDetails hidden">
-                    <button onclick="return document._componentRegistry[6]['closePanel'](event)">close</button>
-                    
-                </div>
-            </store-details>
-            </div>
-        </div>
+        <button class="searchOpener" is="search-opener"></button>
+        <left-panel></left-panel>
         <stores-map></stores-map>
 
         <!-- load webcomponents bundle, which includes all the necessary polyfills -->

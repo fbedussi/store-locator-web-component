@@ -34,6 +34,7 @@ a {
 :root {
     --input-height: 2.5rem;
     --padding: 0.5rem;
+    --desktop-min-width: 900px;
 }
 
 .visuallyHidden {
@@ -75,25 +76,6 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-.leftPanel {
-    display: flex;
-    flex-direction: column;
-    margin: var(--padding);
-    padding: var(--padding);
-    position: absolute;
-    z-index: 10;
-    background-color: white;
-    height: calc(100vh - (var(--padding) * 2));
-    box-shadow: 4px 4px 4px lightgray;    
-}
-
-.storesAndStoreDetails {
-    position: relative;
-    overflow: hidden;
-    flex: 1;
-    width: 23.5rem;
-}
-
 /*Animations*/
 @keyframes fade-in {
     0% {
@@ -117,7 +99,7 @@ body {
 
 @keyframes slide-in-left {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(-110%);
     }
 
     100% {
@@ -131,7 +113,7 @@ body {
     }
 
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-110%);
     }
 }
 

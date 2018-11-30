@@ -8,7 +8,8 @@ import './components/search-box.js';
 import './components/results-number.js';
 import './components/filter-panel.js';
 import './components/store-details.js';
-import './components/mobile-button.js';
+import './components/search-opener.js';
+import './components/left-panel.js';
 
 fetch('data/stores.json')
     .then((response) => response.json())

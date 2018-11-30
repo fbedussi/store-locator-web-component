@@ -9,6 +9,7 @@ import {
     TOGGLE_STORE_TYPE,
     UPDATE_COORDS,
     UPDATE_SEARCH_TERM,
+    TOGGLE_SEARCH_LAYER,
 } from './actionTypes.js';
 import { setRoute } from '../history.js';
 
@@ -134,6 +135,15 @@ const reducer = (state, action) => {
                 ...state,
                 coordinates: action.coords,
                 stores: state.stores.map(setStoreVisibilityByCoords(action.coords.ne, action.coords.sw))
+            }
+
+        case TOGGLE_SEARCH_LAYER:
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    searchLayerOpen: !state.ui.searchLayerOpen
+                }
             }
 
         default:
