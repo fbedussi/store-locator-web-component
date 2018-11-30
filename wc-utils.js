@@ -135,6 +135,17 @@ export function extendComponent(clazz, attributes = []) {
         return component.outerHTML;
     }
 
+    clazz.prototype.randomizeCssClass = function(cssClass) {
+        if (!this._cssClasses) {
+            this._cssClasses = {};
+        }
+        if (this._cssClasses[cssClass]) {
+            return this._cssClasses[cssClass]
+        }
+        this._cssClasses[cssClass] = cssClass + '_' + getRandomString(6);
+        return this._cssClasses[cssClass];
+    }
+
     return clazz;
 }
 
@@ -149,4 +160,15 @@ export function getAnimationClass(currentState, prevState, classList) {
     } else {
         return prevState ? classList[2] + ' ' + classList[3] : classList[0];
     }
+}
+
+function getRandomString(length) {
+    var text = "";
+    var possible = "abcdefghijklmnopqrstuvwxyz";
+  
+    for (var i = 1; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+  
+    return text;
 }

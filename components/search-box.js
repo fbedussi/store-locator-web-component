@@ -34,6 +34,7 @@ class SeachBox extends HTMLElement {
                 position: relative;
                 --border-thickness: 2px;
                 --search-input-width: 15rem;
+                margin-bottom: 1rem;
             }
             .searchInputAndButtons {
                 display: flex;

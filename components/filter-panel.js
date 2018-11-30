@@ -14,6 +14,9 @@ import {
 import defaultState from '../state/state.js';
 import './collapsable-tab.js';
 import ArrowDown from './icons/arrowDown.js';
+import RemoveIcon from './icons/remove.js';
+import CircleRemoveIcon from './icons/circleRemove.js';
+import {iconForText} from '../styles.js';
 
 class FilterPanel extends HTMLElement {
     constructor() {
@@ -32,7 +35,7 @@ class FilterPanel extends HTMLElement {
         const filterPanelOpen = state.ui.filterPanelOpen;
         const prevFilterPanelOpen = oldState ? oldState.ui.filterPanelOpen : undefined;
         const selectedStoreTypesId = state.filters.storeTypes;
-
+        const removeIconCssClass = this.randomizeCssClass('removeIcon');
         this.html(/*html*/`
             <style>
                 filter-panel {
@@ -53,6 +56,10 @@ class FilterPanel extends HTMLElement {
                 .open .filter-panel_arrow svg {
                     transform: rotate(180deg);
                 }
+                .storeTypeBtn .icon,
+                .${removeIconCssClass} {
+                    ${iconForText}
+                }
             </style>
             <div class="filter-bar_header">
                 <button class="${`filter-panel_toggleBtn${filterPanelOpen ? ' open' : ''}`}" onclick="${this.getHandlerRef(this.handleToggle)}">
@@ -62,7 +69,10 @@ class FilterPanel extends HTMLElement {
                 <button 
                     class="btn filter-panel_resetBtn ${getAnimationClass(filterPanelOpen, prevFilterPanelOpen, ['invisible', 'fade-in', 'visible', 'fade-out'])}" 
                     onclick="${this.getHandlerRef(this.handleReset)}"
-                >reset filters</button>
+                >
+                    <span class="${removeIconCssClass}">${CircleRemoveIcon()}</span>
+                    <span class="text">reset filters</span>
+                </button>
             </div>
             <collapsable-tab open=${filterPanelOpen}>
                 <ul>
@@ -74,7 +84,7 @@ class FilterPanel extends HTMLElement {
                         <li>
                             <button class="storeTypeBtn" 
                                 onclick="${this.getHandlerRef(this.handleFilterClick, storeType)}">
-                                <span class="icon ${animationClass}">x</span>    
+                                <span class="icon ${animationClass}">${RemoveIcon()}</span>    
                                 <span class="text">${storeType.name}</span>
                             </button>
                         </li>
