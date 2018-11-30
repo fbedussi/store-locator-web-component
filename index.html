@@ -3,9 +3,11 @@
     <head>
         <link rel="stylesheet" href="style.css"/>
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <div class="leftPanel">
+            <mobile-button></mobile-button>
             <search-box></search-box>
             <results-number></results-number>
             <filter-panel></filter-panel>
@@ -33,8 +35,6 @@
 
         <!-- load webcomponents bundle, which includes all the necessary polyfills -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.1.3/webcomponents-bundle.min.js"></script>  -->
-        <!-- <script src="hyperHtml-umd.js"></script> -->
-        <!-- <script src="https://cdn.jsdelivr.net/npm/morphdom@2.3.3/dist/morphdom.min.js"></script> -->
         <script src="morphdom-umd.js"></script>
         <script src="index.js" type="module"></script>
     </body>
