@@ -8,6 +8,7 @@ export default {
         searchLayerOpen: false,
     },
     searchTerm: '',
+    geolocation: null,
     openeStore: null,
     filters: {
         continent: '',

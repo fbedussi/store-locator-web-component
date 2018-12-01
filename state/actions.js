@@ -1,14 +1,15 @@
 import {
-    LOAD_STORES,
-    LOAD_STORE_TYPES,
     LOAD_LOCATIONS,
-    UPDATE_SEARCH_TERM,
-    TOGGLE_FILTER_PANEL,
-    SET_STORE_TYPES,
-    RESET_STORE_TYPES,
-    TOGGLE_STORE_TYPE,
+    LOAD_STORE_TYPES,
+    LOAD_STORES,
     OPEN_STORE_DETAILS,
+    RESET_STORE_TYPES,
+    SET_MAP_CENTER,
+    SET_STORE_TYPES,
+    TOGGLE_FILTER_PANEL,
     TOGGLE_SEARCH_LAYER,
+    TOGGLE_STORE_TYPE,
+    UPDATE_SEARCH_TERM,
 } from './actionTypes.js';
 
 export const loadStoresAction = (stores) => ({ type: LOAD_STORES, stores });
@@ -30,3 +31,5 @@ export const resetStoreTypesAction = () => ({ type: RESET_STORE_TYPES });
 export const openStoreDetailsAction = (store) => ({type: OPEN_STORE_DETAILS, store});
 
 export const toggleSearchLayerAction = () => ({type: TOGGLE_SEARCH_LAYER});
+
+export const setMapCenter = (center) => ({type: SET_MAP_CENTER, center})

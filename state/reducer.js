@@ -4,6 +4,7 @@ import {
     LOAD_LOCATIONS,
     OPEN_STORE_DETAILS,
     RESET_STORE_TYPES,
+    SET_MAP_CENTER,
     SET_STORE_TYPES,
     TOGGLE_FILTER_PANEL,
     TOGGLE_STORE_TYPE,
@@ -144,6 +145,12 @@ const reducer = (state, action) => {
                     ...state.ui,
                     searchLayerOpen: !state.ui.searchLayerOpen
                 }
+            }
+        
+        case SET_MAP_CENTER:
+            return {
+                ...state,
+                geolocation: action.center
             }
 
         default:
