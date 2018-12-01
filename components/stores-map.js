@@ -263,7 +263,7 @@ class StoresMap extends HTMLElement {
             
             this.resetMarkers();
             this.setMarkers();
-        }, 0));
+        }, 100));
 
         subscribePartialState('geolocation', (state) => {
             if(state.geolocation) {
