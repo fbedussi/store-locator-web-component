@@ -264,7 +264,7 @@ class StoresMap extends HTMLElement {
             
             this.resetMarkers();
             this.setMarkers();
-        }, 0));
+        }, 100));
 
         this.bindEvents();
     }
