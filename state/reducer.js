@@ -4,6 +4,7 @@ import {
     LOAD_LOCATIONS,
     OPEN_STORE_DETAILS,
     RESET_STORE_TYPES,
+    SET_USER_LOCATION,
     SET_STORE_TYPES,
     TOGGLE_FILTER_PANEL,
     TOGGLE_STORE_TYPE,
@@ -12,7 +13,7 @@ import {
     TOGGLE_SEARCH_LAYER,
     RESET_SEARCH_TERM,
 } from './actionTypes.js';
-import { setRoute } from '../history.js';
+import { setHashRoute } from '../history.js';
 
 let numberOfVisibleStores = 0;
 
@@ -106,6 +107,13 @@ const reducer = (state, action) => {
             };
 
         case UPDATE_SEARCH_TERM:
+            const filters = {
+                ...state.filters,
+                search: action.searchTerm,
+                coords: null
+            }
+
+            setHashRoute(filters);    
             numberOfVisibleStores = 0;
             return {
                 ...state,
@@ -134,10 +142,11 @@ const reducer = (state, action) => {
 
         case SET_STORE_TYPES:
             {
-                const updatedFilters = {
+                const filters = {
                     ...state.filters,
                     storeTypes: action.storeTypes,
                 };
+                setHashRoute(filters);
                 numberOfVisibleStores = 0;
                 return {
                     ...state,
@@ -149,11 +158,11 @@ const reducer = (state, action) => {
 
         case TOGGLE_STORE_TYPE:
             {
-                const updatedFilters = {
+                const filters = {
                     ...state.filters,
                     storeTypes: toggleStoreType(state.filters.storeTypes, action.storeTypeId),
                 };
-                setRoute('store-type', updatedFilters.storeTypes.join(','));
+                setHashRoute(filters);
                 numberOfVisibleStores = 0;
                 return {
                     ...state,
@@ -165,12 +174,12 @@ const reducer = (state, action) => {
 
         case RESET_STORE_TYPES:
             {
-                const updatedFilters = {
+                const filters = {
                     ...state.filters,
                     storeTypes: [],
                 };
+                setHashRoute(filters);
                 numberOfVisibleStores = 0;
-                setRoute('store-type', '');
                 return {
                     ...state,
                     stores: state.stores.map(setStoreVisibilityBySearchTerm(state.searchTerm)),
@@ -186,8 +195,13 @@ const reducer = (state, action) => {
             }
 
         case UPDATE_COORDS:
-            setRoute('coords', '');
-            setRoute('coords', `${action.coords.center.lat},${action.coords.center.lng}/ne/${action.coords.ne.lat},${action.coords.ne.lng}/sw/${action.coords.sw.lat},${action.coords.sw.lng}`);
+            const filters = {
+                ...state.filters,
+                search: null,
+                coords: action.coords,
+            };
+
+            setHashRoute(filters);
             numberOfVisibleStores = 0;
 
             return {
@@ -204,6 +218,12 @@ const reducer = (state, action) => {
                     ...state.ui,
                     searchLayerOpen: !state.ui.searchLayerOpen
                 }
+            }
+        
+        case SET_USER_LOCATION:
+            return {
+                ...state,
+                userLocation: action.center
             }
 
         default:

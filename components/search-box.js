@@ -2,11 +2,12 @@ import {
     dispatch,
     subscribePartialState,
 } from '../state/state-manager.js';
-import { 
-    updateSearchTermAction,
-    resetSearchTermAction
+import {
+  updateSearchTermAction,
+  resetSearchTermAction,
+  setUserLocationAction,
 } from '../state/actions.js';
-import { 
+import {
     extendComponent,
 } from '../wc-utils.js';
 import { throttle } from '../utils.js';
@@ -92,7 +93,7 @@ class SeachBox extends HTMLElement {
             ${IconButton({
                 icon: GeolocalizeIcon(), 
                 label: 'geolocate me', 
-                clickHandler: this.getHandlerRef(this.handleReset), 
+                clickHandler: this.getHandlerRef(this.handleGeoLocation), 
                 cssClass: 'btn geolocalizeIcon'
             })}
         </div>
@@ -101,6 +102,25 @@ class SeachBox extends HTMLElement {
 
     handleReset() {
         dispatch(resetSearchTermAction());
+    }
+
+    handleGeoLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition( function(position) {
+                const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+  
+                dispatch(updateSearchTermAction(''));
+                dispatch(setUserLocationAction(pos));
+            }, function(error) {
+               console.log('Geolocation error:', error); 
+            });
+          } else {
+            // Browser doesn't support Geolocation
+            console.log('Geolocation error: missing support');
+          }
     }
 }
 

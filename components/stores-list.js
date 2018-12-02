@@ -63,9 +63,16 @@ class StoresList extends HTMLElement {
                     background-color: black;
                     outline: 1px solid slategrey;
                 }
+                
+                stores-list ul .action {
+                    max-width: 50px;
+                    cursor: pointer;
+                }
+
                 .${storeNameCssClass} {
                     margin-bottom: 0.5em;
                 }
+
                 .${storePhoneCssClass} .icon {
                     width: 1em;
                     height: 1em;
@@ -85,7 +92,7 @@ class StoresList extends HTMLElement {
                                     <span class="text">${store.phone}</span>
                                 </div>
                             </div>
-                            <div>
+                            <div class="action">
                                 ${RightArrow()}
                             </div>
                         </li>`).join('')}

@@ -43,6 +43,7 @@ class StoresMap extends HTMLElement {
         `;
     this.appendChild(styleNode);
 
+        
 
     this.mapElement = document.createElement('div');
     this.mapElement.classList = 'map';
@@ -262,6 +263,14 @@ class StoresMap extends HTMLElement {
       this.resetMarkers();
       this.setMarkers();
     }, 100));
+
+        subscribePartialState('userLocation', (state) => {
+            if(state.geolocation) {
+                this.map.setCenter(state.geolocation);
+
+                this.dispatchUpdatedCoords();
+            }
+        });
 
     this.bindEvents();
   }
