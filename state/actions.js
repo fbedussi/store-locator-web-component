@@ -9,6 +9,7 @@ import {
     TOGGLE_STORE_TYPE,
     OPEN_STORE_DETAILS,
     TOGGLE_SEARCH_LAYER,
+    RESET_SEARCH_TERM,
 } from './actionTypes.js';
 
 export const loadStoresAction = (stores) => ({ type: LOAD_STORES, stores });
@@ -18,6 +19,8 @@ export const loadStoreTypesAction = (storeTypes) => ({ type: LOAD_STORE_TYPES, s
 export const loadLocationsAction = (locations) => ({ type: LOAD_LOCATIONS, locations });
 
 export const updateSearchTermAction = (searchTerm) => ({ type: UPDATE_SEARCH_TERM, searchTerm });
+
+export const resetSearchTermAction = () => ({type: RESET_SEARCH_TERM});
 
 export const toggleFilterPanelAction = () => ({ type: TOGGLE_FILTER_PANEL });
 

@@ -23,12 +23,12 @@ class LeftPanel extends HTMLElement {
         });
         this.addEventListener('touchstart', (ev) => {
             this.touchStart = ev.touches[0].clientX;
-        });
+        }, {passive: true});
         this.addEventListener('touchend', (ev) => {
             if (this.touchStart - ev.changedTouches[0].clientX > 100) {
                 dispatch(toggleSearchLayerAction());
             }
-        });
+        }, {passive: true});
     }
 
     render() {

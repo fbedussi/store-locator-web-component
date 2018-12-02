@@ -16,6 +16,7 @@ class CollapsableTab extends HTMLElement {
                 .collapsableTabOuter {
                     overflow: hidden;
                     transition: height ${this.transitionDuration}ms;
+                    will-change: height;
                 }
             </style>
             <div class="collapsableTabOuter">

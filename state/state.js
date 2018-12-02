@@ -1,5 +1,6 @@
 export default {
     stores: [],
+    numberOfVisibleStores: null,
     storeTypes: [],
     locations: [],
     ui: {

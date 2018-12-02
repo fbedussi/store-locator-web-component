@@ -11,12 +11,16 @@ body:not(.keyboardNavigation) *:focus {
 
 button,
 input {
-    background: none;
+    background-color: transparent;
     border: none;
     font-size: inherit;
     font-family: inherit;
     border-radius: 0;
     height: var(--input-height)
+}
+
+button {
+    -webkit-tap-highlight-color: lightgray;
 }
 
 svg {
@@ -77,6 +81,10 @@ body {
 }
 
 /*Animations*/
+store-list {
+    will-change: transform;
+}
+
 @keyframes fade-in {
     0% {
         opacity: 0;

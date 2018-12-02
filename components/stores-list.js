@@ -50,7 +50,15 @@ class StoresList extends HTMLElement {
                 stores-list ul::-webkit-scrollbar-track {
                     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
                 }
-                
+                stores-list ul li {
+                    border-bottom: solid 1px lightgray;
+                    padding: 1em 0;
+                    display: flex;
+                    justify-content: space-between;
+                }
+                stores-list ul li:first-child {
+                    border-top: solid 1px lightgray;
+                }
                 stores-list ul::-webkit-scrollbar-thumb {
                     background-color: black;
                     outline: 1px solid slategrey;
@@ -67,9 +75,9 @@ class StoresList extends HTMLElement {
             </style>
             <ul>
                 ${stores
-                    .filter((store) => store.visible)
+                    .filter(function filterVisibleStores(store) {return store.visible})
                     .map((store, i) => /*html*/`
-                        <li style="${liStyle(i)}" onclick="${this.getHandlerRef(this.handleStoreClick, store)}">
+                        <li onclick="${this.getHandlerRef(this.handleStoreClick, store)}">
                             <div>
                                 <div class="${storeNameCssClass}">${store.name}</div>
                                 <div class="${storePhoneCssClass}">

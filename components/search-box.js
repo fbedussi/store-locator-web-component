@@ -3,11 +3,13 @@ import {
     subscribePartialState,
 } from '../state/state-manager.js';
 import { 
-    updateSearchTermAction 
+    updateSearchTermAction,
+    resetSearchTermAction
 } from '../state/actions.js';
 import { 
     extendComponent,
 } from '../wc-utils.js';
+import { throttle } from '../utils.js';
 
 import './search-suggestions.js';
 import IconButton from './ui/icon-button.js';
@@ -77,7 +79,7 @@ class SeachBox extends HTMLElement {
             <div class="searchInputAndIcons">
                 ${SearchIcon()}
                 <div class="searchInput">
-                    <input id="searchInput" type="text" placeholder="Inserisci una località" oninput="${this.getHandlerRef(this.handleInput)}" value="${searchTerm}"/>
+                    <input id="searchInput" type="text" placeholder="Inserisci una località" oninput="${`document._componentRegistry['${this._id}'].handleInput(event)`}" value="${searchTerm}"/>
                     ${this.renderChildComponent('search-suggestions')}
                 </div>
                 ${IconButton({
@@ -94,16 +96,16 @@ class SeachBox extends HTMLElement {
                 cssClass: 'btn geolocalizeIcon'
             })}
         </div>
-                    `);
-    }
-    
-    handleInput(ev) {
-        dispatch(updateSearchTermAction(ev.target.value));
+        `);
     }
 
     handleReset() {
-        dispatch(updateSearchTermAction(''));
+        dispatch(resetSearchTermAction());
     }
 }
+
+SeachBox.prototype.handleInput = throttle(function(ev) {
+    dispatch(updateSearchTermAction(ev.target.value));
+}, 80);
 
 window.customElements.define('search-box', extendComponent(SeachBox));

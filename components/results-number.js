@@ -8,13 +8,12 @@ class ResultsNumber extends HTMLElement {
     }
 
     connectedCallback() {
-        subscribePartialState('stores', (state) => {
-            this.render(state.stores);
+        subscribePartialState('numberOfVisibleStores', (state) => {
+            this.render(state.numberOfVisibleStores);
         });
     }
 
-    render(stores = []) {
-        const numebrOfSelectedStores = stores.filter((store) => store.visible).length;
+    render(numebrOfSelectedStores = null) {
         let text = 'No store found, check che search query';
         
         switch (numebrOfSelectedStores) {
