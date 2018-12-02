@@ -32,4 +32,4 @@ export const openStoreDetailsAction = (store) => ({type: OPEN_STORE_DETAILS, sto
 
 export const toggleSearchLayerAction = () => ({type: TOGGLE_SEARCH_LAYER});
 
-export const setMapCenter = (center) => ({type: SET_MAP_CENTER, center})
+export const setMapCenterAction = (center) => ({type: SET_MAP_CENTER, center})

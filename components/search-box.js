@@ -2,10 +2,11 @@ import {
     dispatch,
     subscribePartialState,
 } from '../state/state-manager.js';
-import { 
-    updateSearchTermAction 
+import {
+    setMapCenterAction,
+    updateSearchTermAction
 } from '../state/actions.js';
-import { 
+import {
     extendComponent,
 } from '../wc-utils.js';
 
@@ -114,7 +115,7 @@ class SeachBox extends HTMLElement {
                 };
   
                 dispatch(updateSearchTermAction(''));
-                dispatch(setMapCenter(pos));
+                dispatch(setMapCenterAction(pos));
             }, function(error) {
                console.log('Geolocation error:', error); 
             });
