@@ -16,7 +16,11 @@ input {
     font-size: inherit;
     font-family: inherit;
     border-radius: 0;
-    height: var(--input-height)
+    height: var(--input-height);
+}
+
+button {
+    cursor: pointer;
 }
 
 svg {
@@ -52,7 +56,6 @@ a {
     border: solid 1px lightgray;
     display: inline-block;
     padding: var(--padding);
-
 }
 
 .iconButton {
