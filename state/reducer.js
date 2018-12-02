@@ -22,9 +22,9 @@ function setStoreVisibility(searchTerm, filters) {
     return function (store) {
         const visibleBySearchTerm = store.location.some((locationBit) => locationBit.toLowerCase().includes(searchTermLower));
         const visibleByFilters = store.storeTypes.some((storeType) => filters.storeTypes.includes(storeType.id));
-        
-        store.visible = (searchTerm.length && visibleBySearchTerm) 
-            || (filters.storeTypes.length && visibleByFilters) 
+
+        store.visible = (searchTerm.length && visibleBySearchTerm)
+            || (filters.storeTypes.length && visibleByFilters)
             || (!searchTerm.length && !filters.storeTypes.length);
 
         if (store.visible) {
@@ -39,7 +39,7 @@ function setStoreVisibilityBySearchTerm(searchTerm) {
     const searchTermLower = searchTerm.toLowerCase();
     return function (store) {
         const visibleBySearchTerm = store.location.some((locationBit) => locationBit.toLowerCase().includes(searchTermLower));
-        
+
         store.visible = visibleBySearchTerm;
 
         if (store.visible) {
@@ -53,7 +53,7 @@ function setStoreVisibilityBySearchTerm(searchTerm) {
 function setStoreVisibilityByFilters(filters) {
     return function (store) {
         const visibleByFilters = store.storeTypes.some((storeType) => filters.storeTypes.includes(storeType.id));
-        
+
         store.visible = !filters.storeTypes.length || visibleByFilters;
 
         if (store.visible) {
@@ -80,7 +80,7 @@ function toggleStoreType(storeTypeIds, storeTypeId) {
     return storeTypeIds.includes(storeTypeId) ?
         storeTypeIds.filter((id) => id !== storeTypeId)
         : storeTypeIds.concat(storeTypeId)
-    ;
+        ;
 }
 
 const reducer = (state, action) => {
@@ -91,7 +91,7 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 stores: visibleStores,
-                numberOfVisibleStores,                
+                numberOfVisibleStores,
             };
 
         case LOAD_STORE_TYPES:
@@ -113,22 +113,22 @@ const reducer = (state, action) => {
                 coords: null
             }
 
-            setHashRoute(filters);    
+            setHashRoute(filters);
             numberOfVisibleStores = 0;
             return {
                 ...state,
                 searchTerm: action.searchTerm,
                 stores: state.stores.map(setStoreVisibility(action.searchTerm, state.filters)),
-                numberOfVisibleStores,                
+                numberOfVisibleStores,
             }
-        
+
         case RESET_SEARCH_TERM:
             numberOfVisibleStores = 0;
             return {
                 ...state,
                 searchTerm: '',
                 stores: state.stores.map(setStoreVisibilityByFilters(state.filters)),
-                numberOfVisibleStores,                
+                numberOfVisibleStores,
             }
 
         case TOGGLE_FILTER_PANEL:
@@ -150,9 +150,9 @@ const reducer = (state, action) => {
                 numberOfVisibleStores = 0;
                 return {
                     ...state,
-                    stores: state.stores.map(setStoreVisibility(state.searchTerm, updatedFilters)),
+                    stores: state.stores.map(setStoreVisibility(state.searchTerm, filters)),
                     numberOfVisibleStores,
-                    filters: updatedFilters,
+                    filters,
                 }
             }
 
@@ -166,9 +166,9 @@ const reducer = (state, action) => {
                 numberOfVisibleStores = 0;
                 return {
                     ...state,
-                    stores: state.stores.map(setStoreVisibility(state.searchTerm, updatedFilters)),
+                    stores: state.stores.map(setStoreVisibility(state.searchTerm, filters)),
                     numberOfVisibleStores,
-                    filters: updatedFilters,
+                    filters,
                 }
             }
 
@@ -184,7 +184,7 @@ const reducer = (state, action) => {
                     ...state,
                     stores: state.stores.map(setStoreVisibilityBySearchTerm(state.searchTerm)),
                     numberOfVisibleStores,
-                    filters: updatedFilters,
+                    filters,
                 }
             }
 
@@ -195,22 +195,23 @@ const reducer = (state, action) => {
             }
 
         case UPDATE_COORDS:
-            const filters = {
-                ...state.filters,
-                search: null,
-                coords: action.coords,
-            };
+            {
+                const filters = {
+                    ...state.filters,
+                    search: null,
+                    coords: action.coords,
+                };
 
-            setHashRoute(filters);
-            numberOfVisibleStores = 0;
+                setHashRoute(filters);
+                numberOfVisibleStores = 0;
 
-            return {
-                ...state,
-                stores: state.stores.map(setStoreVisibilityByCoords(action.coords.ne, action.coords.sw)),
-                numberOfVisibleStores,
-                coordinates: action.coords,
+                return {
+                    ...state,
+                    stores: state.stores.map(setStoreVisibilityByCoords(action.coords.ne, action.coords.sw)),
+                    numberOfVisibleStores,
+                    coordinates: action.coords,
+                }
             }
-
         case TOGGLE_SEARCH_LAYER:
             return {
                 ...state,
@@ -219,7 +220,7 @@ const reducer = (state, action) => {
                     searchLayerOpen: !state.ui.searchLayerOpen
                 }
             }
-        
+
         case SET_USER_LOCATION:
             return {
                 ...state,
