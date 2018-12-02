@@ -3,7 +3,7 @@ import {
     subscribePartialState,
 } from '../state/state-manager.js';
 import {
-    setMapCenterAction,
+    setUserLocationAction,
     updateSearchTermAction
 } from '../state/actions.js';
 import {
@@ -115,7 +115,7 @@ class SeachBox extends HTMLElement {
                 };
   
                 dispatch(updateSearchTermAction(''));
-                dispatch(setMapCenterAction(pos));
+                dispatch(setUserLocationAction(pos));
             }, function(error) {
                console.log('Geolocation error:', error); 
             });

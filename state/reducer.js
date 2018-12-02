@@ -4,7 +4,7 @@ import {
     LOAD_LOCATIONS,
     OPEN_STORE_DETAILS,
     RESET_STORE_TYPES,
-    SET_MAP_CENTER,
+    SET_USER_LOCATION,
     SET_STORE_TYPES,
     TOGGLE_FILTER_PANEL,
     TOGGLE_STORE_TYPE,
@@ -12,7 +12,7 @@ import {
     UPDATE_SEARCH_TERM,
     TOGGLE_SEARCH_LAYER,
 } from './actionTypes.js';
-import { setRoute } from '../history.js';
+import { setHashRoute } from '../history.js';
 
 function setStoreVisibilityBySearchTerm(searchTerm) {
     return function (store) {
@@ -66,10 +66,21 @@ const reducer = (state, action) => {
             };
 
         case UPDATE_SEARCH_TERM:
-            return {
-                ...state,
-                searchTerm: action.searchTerm,
-                stores: state.stores.map(setStoreVisibilityBySearchTerm(action.searchTerm))
+            {
+                const filters = {
+                    ...state.filters,
+                    search: action.searchTerm,
+                    coords: null
+                }
+    
+                setHashRoute(filters);
+                
+                return {
+                    ...state,
+                    filters,
+                    searchTerm: action.searchTerm,
+                    stores: state.stores.map(setStoreVisibilityBySearchTerm(action.searchTerm))
+                }
             }
 
         case TOGGLE_FILTER_PANEL:
@@ -83,43 +94,50 @@ const reducer = (state, action) => {
 
         case SET_STORE_TYPES:
             {
-                const updatedFilters = {
+                const filters = {
                     ...state.filters,
                     storeTypes: action.storeTypes,
                 };
+
+                setHashRoute(filters);
+
                 return {
                     ...state,
-                    stores: state.stores.map(setStoreVisibilityByFilters(updatedFilters)),
-                    filters: updatedFilters,
+                    filters,
+                    stores: state.stores.map(setStoreVisibilityByFilters(filters)),
                 }
             }
 
         case TOGGLE_STORE_TYPE:
             {
-                const updatedFilters = {
+                const filters = {
                     ...state.filters,
                     storeTypes: toggleStoreType(state.filters.storeTypes, action.storeTypeId),
                 };
-                setRoute('store-type', updatedFilters.storeTypes.join(','));
+    
+                setHashRoute(filters);
+                
                 return {
                     ...state,
-                    stores: state.stores.map(setStoreVisibilityByFilters(updatedFilters)),
-                    filters: updatedFilters,
-                }
+                    filters,
+                    stores: state.stores.map(setStoreVisibilityByFilters(filters)),
+                }                    
             }
 
         case RESET_STORE_TYPES:
             {
-                const updatedFilters = {
+                const filters = {
                     ...state.filters,
                     storeTypes: [],
                 };
-                setRoute('store-type', '');
+    
+                setHashRoute(filters);
+
                 return {
                     ...state,
-                    stores: state.stores.map(setStoreVisibilityByFilters(updatedFilters)),
-                    filters: updatedFilters,
-                }
+                    filters,
+                    stores: state.stores.map(setStoreVisibilityByFilters(filters)),
+                }    
             }
 
         case OPEN_STORE_DETAILS:
@@ -129,13 +147,20 @@ const reducer = (state, action) => {
             }
 
         case UPDATE_COORDS:
-            setRoute('coords', '');
-            setRoute('coords', `${action.coords.center.lat},${action.coords.center.lng}/ne/${action.coords.ne.lat},${action.coords.ne.lng}/sw/${action.coords.sw.lat},${action.coords.sw.lng}`);
-
-            return {
-                ...state,
-                coordinates: action.coords,
-                stores: state.stores.map(setStoreVisibilityByCoords(action.coords.ne, action.coords.sw))
+            {
+                const filters = {
+                    ...state.filters,
+                    search: null,
+                    coords: action.coords,
+                };
+    
+                setHashRoute(filters);
+    
+                return {
+                    ...state,
+                    filters,
+                    stores: state.stores.map(setStoreVisibilityByCoords(action.coords.ne, action.coords.sw)),
+                }
             }
 
         case TOGGLE_SEARCH_LAYER:
@@ -147,10 +172,10 @@ const reducer = (state, action) => {
                 }
             }
         
-        case SET_MAP_CENTER:
+        case SET_USER_LOCATION:
             return {
                 ...state,
-                geolocation: action.center
+                userLocation: action.center
             }
 
         default:

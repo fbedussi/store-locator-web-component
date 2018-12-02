@@ -265,7 +265,7 @@ class StoresMap extends HTMLElement {
             this.setMarkers();
         }, 100));
 
-        subscribePartialState('geolocation', (state) => {
+        subscribePartialState('userLocation', (state) => {
             if(state.geolocation) {
                 this.map.setCenter(state.geolocation);
 

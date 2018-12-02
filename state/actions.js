@@ -4,7 +4,7 @@ import {
     LOAD_STORES,
     OPEN_STORE_DETAILS,
     RESET_STORE_TYPES,
-    SET_MAP_CENTER,
+    SET_USER_LOCATION,
     SET_STORE_TYPES,
     TOGGLE_FILTER_PANEL,
     TOGGLE_SEARCH_LAYER,
@@ -32,4 +32,4 @@ export const openStoreDetailsAction = (store) => ({type: OPEN_STORE_DETAILS, sto
 
 export const toggleSearchLayerAction = () => ({type: TOGGLE_SEARCH_LAYER});
 
-export const setMapCenterAction = (center) => ({type: SET_MAP_CENTER, center})
+export const setUserLocationAction = (userLocation) => ({type: SET_USER_LOCATION, userLocation})

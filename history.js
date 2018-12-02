@@ -13,6 +13,24 @@ export function setRoute(key, value) {
     window.history.pushState({}, '', route);
 }
 
+export function setHashRoute(filters) {
+    let hash = '#';
+
+    hash += filters.search ? `/search/${filters.search}` : '';
+
+    if(filters.coords) {
+        const coords = filters.coords;
+
+        hash += `/coords/${coords.center.lat},${coords.center.lng}/ne/${coords.ne.lat},${coords.ne.lng}/sw/${coords.sw.lat},${coords.sw.lng}`;
+    }
+    
+    hash += (filters.storeTypes && filters.storeTypes.length) ? `/store-types/${filters.storeTypes.join(',')}` : '';
+
+    const route = `${window.location.pathname}${hash}`;
+
+    window.history.pushState({}, '', route);
+}
+
 export function decodeRoute() {
     const segments = window.location.hash.slice(1).split('/');
     const keysMap = {

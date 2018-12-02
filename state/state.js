@@ -8,26 +8,31 @@ export default {
         searchLayerOpen: false,
     },
     searchTerm: '',
-    geolocation: null,
+    userLocation: null,
     openeStore: null,
     filters: {
-        continent: '',
-        country: '',
-        city: '',
-        coordinates: {
-            center: {
-                lat: '',
-                lng: ''
-            },
-            ne: {
-                lat: '',
-                lng: ''
-            },
-            sw: {
-                lat: '',
-                lng: ''
-            }
-        },
+        search: null,
+        coords: null,
         storeTypes: []
     }
 }
+
+/*
+    Ok non piace nemmeno a me ma per ora lo lascio qui poi vedremo:
+
+    Coords type
+    {       
+        center: {
+            lat: '',
+            lng: ''
+        },
+        ne: {
+            lat: '',
+            lng: ''
+        },
+        sw: {
+            lat: '',
+            lng: ''
+        }
+    }    
+*/
