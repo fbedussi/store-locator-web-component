@@ -12,6 +12,7 @@ import {
     UPDATE_SEARCH_TERM,
     RESET_SEARCH_TERM,
     SHOW_LOADING,
+    HIDE_LOADING,
 } from './actionTypes.js';
 
 export const loadStoresAction = (stores) => ({ type: LOAD_STORES, stores });
@@ -23,8 +24,8 @@ export const loadLocationsAction = (locations) => ({ type: LOAD_LOCATIONS, locat
 export const updateSearchTermAction = (searchTerm) => ({ type: UPDATE_SEARCH_TERM, searchTerm });
 
 export const resetSearchTermAction = () => (dispatch) => {
-    dispatch(showLoading());
-    dispatch({type: RESET_SEARCH_TERM});
+    dispatch(showLoadingAction());
+    setTimeout(() => dispatch({type: RESET_SEARCH_TERM}), 50);
 };
 
 export const toggleFilterPanelAction = () => ({ type: TOGGLE_FILTER_PANEL });
@@ -41,4 +42,6 @@ export const toggleSearchLayerAction = () => ({type: TOGGLE_SEARCH_LAYER});
 
 export const setUserLocationAction = (userLocation) => ({type: SET_USER_LOCATION, userLocation})
 
-export const showLoading = () => ({type: SHOW_LOADING});
+export const showLoadingAction = () => ({type: SHOW_LOADING});
+
+export const hideLoadingAction = () => ({type: HIDE_LOADING});

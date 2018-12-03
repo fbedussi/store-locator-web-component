@@ -4,6 +4,8 @@ import {
 } from '../state/state-manager.js';
 import {
     openStoreDetailsAction,
+    hideLoadingAction,
+    showLoadingAction,
 } from '../state/actions.js';
 import { 
     extendComponent,
@@ -27,7 +29,6 @@ class StoresList extends HTMLElement {
     render(stores = []) {
         const storeNameCssClass = this.randomizeCssClass('storeName');
         const storePhoneCssClass = this.randomizeCssClass('storePhone');
-        
         this.innerHTML = /*html*/ `
             <style>
                 stores-list ul {
@@ -91,6 +92,7 @@ class StoresList extends HTMLElement {
                         </li>`).join('')}
             </ul>
         `;
+        dispatch(hideLoadingAction());
     }
 
     handleStoreClick(ev, store) {

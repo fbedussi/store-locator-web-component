@@ -13,6 +13,7 @@ import {
     TOGGLE_SEARCH_LAYER,
     RESET_SEARCH_TERM,
     SHOW_LOADING,
+    HIDE_LOADING,
 } from './actionTypes.js';
 import { setHashRoute } from '../history.js';
 
@@ -106,10 +107,6 @@ const reducer = (state, action) => {
         case RESET_SEARCH_TERM:
             return {
                 ...state,
-                ui: {
-                    ...state.ui,
-                    showLoading: false,
-                },
                 searchTerm: '',
                 stores: state.stores.map(setStoreVisibilityByFilters(state.filters)),
             }
@@ -208,6 +205,15 @@ const reducer = (state, action) => {
                 ui: {
                     ...state.ui,
                     showLoading: true,
+                }
+            }
+
+        case HIDE_LOADING:
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    showLoading: false,
                 }
             }
 

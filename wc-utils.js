@@ -133,6 +133,10 @@ export function extendComponent(clazz, attributes = []) {
 
     clazz.prototype.html = function(newDomStr) {
         morphdom(this, parseDomString(newDomStr), {childrenOnly: true});
+
+        if (typeof this.componentDidUpdate === 'function') {
+            this.componentDidUpdate();
+        }
     }
 
     clazz.prototype.renderChildComponent = function(componentTag) {
