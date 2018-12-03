@@ -23,9 +23,8 @@ function setStoreVisibility(searchTerm, filters) {
         const visibleBySearchTerm = store.location.some((locationBit) => locationBit.toLowerCase().includes(searchTermLower));
         const visibleByFilters = store.storeTypes.some((storeType) => filters.storeTypes.includes(storeType.id));
 
-        store.visible = (searchTerm.length && visibleBySearchTerm)
-            || (filters.storeTypes.length && visibleByFilters)
-            || (!searchTerm.length && !filters.storeTypes.length);
+        store.visible = ((!searchTerm.length || visibleBySearchTerm)
+            && (!filters.storeTypes.length || visibleByFilters));
 
         if (store.visible) {
             numberOfVisibleStores += 1;
