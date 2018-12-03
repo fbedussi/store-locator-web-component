@@ -8,30 +8,25 @@ class ResultsNumber extends HTMLElement {
     }
 
     connectedCallback() {
-        subscribePartialState('numberOfVisibleStores', (state) => {
-            this.render(state.numberOfVisibleStores);
+        subscribePartialState('stores', (state) => {
+            this.render(state.stores);
         });
     }
 
-    render(numebrOfSelectedStores = null) {
-        let text = 'No store found, check che search query';
+    render(stores = []) {
+        const numebrOfSelectedStores = stores.filter((store) => store.visible).length;
+        const texts = [
+            'No store found, check che search query',
+            '1 store found',
+            `${numebrOfSelectedStores} stores found`];
         
-        switch (numebrOfSelectedStores) {
-            case 1:
-                text = '1 store found';
-                break;
-            
-            default:
-                text = `${numebrOfSelectedStores} stores found`;
-                break;
-        }
         this.innerHTML = /*html*/ `
             <style>
                 results-number {
                     padding: var(--padding);
                 }   
             </style>
-            <div>${text}</div>
+            <div>${texts[Math.min(2,numebrOfSelectedStores)]}</div>
         `;
     }
 }

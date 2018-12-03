@@ -15,7 +15,6 @@ import {
 } from './actionTypes.js';
 import { setHashRoute } from '../history.js';
 
-let numberOfVisibleStores = 0;
 
 function setStoreVisibility(searchTerm, filters) {
     const searchTermLower = searchTerm.toLowerCase();
@@ -25,10 +24,6 @@ function setStoreVisibility(searchTerm, filters) {
 
         store.visible = ((!searchTerm.length || visibleBySearchTerm)
             && (!filters.storeTypes.length || visibleByFilters));
-
-        if (store.visible) {
-            numberOfVisibleStores += 1;
-        }
 
         return store;
     }
@@ -41,10 +36,6 @@ function setStoreVisibilityBySearchTerm(searchTerm) {
 
         store.visible = visibleBySearchTerm;
 
-        if (store.visible) {
-            numberOfVisibleStores += 1;
-        }
-
         return store;
     }
 }
@@ -55,10 +46,6 @@ function setStoreVisibilityByFilters(filters) {
 
         store.visible = !filters.storeTypes.length || visibleByFilters;
 
-        if (store.visible) {
-            numberOfVisibleStores += 1;
-        }
-
         return store;
     }
 }
@@ -66,10 +53,6 @@ function setStoreVisibilityByFilters(filters) {
 function setStoreVisibilityByCoords(ne, sw) {
     return function (store) {
         store.visible = ne.lat >= store.lat && store.lat >= sw.lat && ne.lng >= store.lng && store.lng >= sw.lng;
-
-        if (store.visible) {
-            numberOfVisibleStores += 1;
-        }
 
         return store;
     }
@@ -85,12 +68,10 @@ function toggleStoreType(storeTypeIds, storeTypeId) {
 const reducer = (state, action) => {
     switch (action.type) {
         case LOAD_STORES:
-            numberOfVisibleStores = 0;
             const visibleStores = action.stores.map(setStoreVisibility(state.searchTerm, state.filters));
             return {
                 ...state,
                 stores: visibleStores,
-                numberOfVisibleStores,
             };
 
         case LOAD_STORE_TYPES:
@@ -114,22 +95,18 @@ const reducer = (state, action) => {
                 }
 
                 setHashRoute(filters);
-                numberOfVisibleStores = 0;
                 return {
                     ...state,
                     searchTerm: action.searchTerm,
                     stores: state.stores.map(setStoreVisibility(action.searchTerm, state.filters)),
-                    numberOfVisibleStores,
                 }
             }
 
         case RESET_SEARCH_TERM:
-            numberOfVisibleStores = 0;
             return {
                 ...state,
                 searchTerm: '',
                 stores: state.stores.map(setStoreVisibilityByFilters(state.filters)),
-                numberOfVisibleStores,
             }
 
         case TOGGLE_FILTER_PANEL:
@@ -148,11 +125,9 @@ const reducer = (state, action) => {
                     storeTypes: action.storeTypes,
                 };
                 setHashRoute(filters);
-                numberOfVisibleStores = 0;
                 return {
                     ...state,
                     stores: state.stores.map(setStoreVisibility(state.searchTerm, filters)),
-                    numberOfVisibleStores,
                     filters,
                 }
             }
@@ -164,11 +139,9 @@ const reducer = (state, action) => {
                     storeTypes: toggleStoreType(state.filters.storeTypes, action.storeTypeId),
                 };
                 setHashRoute(filters);
-                numberOfVisibleStores = 0;
                 return {
                     ...state,
                     stores: state.stores.map(setStoreVisibility(state.searchTerm, filters)),
-                    numberOfVisibleStores,
                     filters,
                 }
             }
@@ -180,11 +153,9 @@ const reducer = (state, action) => {
                     storeTypes: [],
                 };
                 setHashRoute(filters);
-                numberOfVisibleStores = 0;
                 return {
                     ...state,
                     stores: state.stores.map(setStoreVisibilityBySearchTerm(state.searchTerm)),
-                    numberOfVisibleStores,
                     filters,
                 }
             }
@@ -204,12 +175,10 @@ const reducer = (state, action) => {
                 };
 
                 setHashRoute(filters);
-                numberOfVisibleStores = 0;
 
                 return {
                     ...state,
                     stores: state.stores.map(setStoreVisibilityByCoords(action.coords.ne, action.coords.sw)),
-                    numberOfVisibleStores,
                     coordinates: action.coords,
                 }
             }
