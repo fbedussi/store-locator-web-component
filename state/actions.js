@@ -11,6 +11,7 @@ import {
     TOGGLE_STORE_TYPE,
     UPDATE_SEARCH_TERM,
     RESET_SEARCH_TERM,
+    SHOW_LOADING,
 } from './actionTypes.js';
 
 export const loadStoresAction = (stores) => ({ type: LOAD_STORES, stores });
@@ -21,7 +22,10 @@ export const loadLocationsAction = (locations) => ({ type: LOAD_LOCATIONS, locat
 
 export const updateSearchTermAction = (searchTerm) => ({ type: UPDATE_SEARCH_TERM, searchTerm });
 
-export const resetSearchTermAction = () => ({type: RESET_SEARCH_TERM});
+export const resetSearchTermAction = () => (dispatch) => {
+    dispatch(showLoading());
+    dispatch({type: RESET_SEARCH_TERM});
+};
 
 export const toggleFilterPanelAction = () => ({ type: TOGGLE_FILTER_PANEL });
 
@@ -36,3 +40,5 @@ export const openStoreDetailsAction = (store) => ({type: OPEN_STORE_DETAILS, sto
 export const toggleSearchLayerAction = () => ({type: TOGGLE_SEARCH_LAYER});
 
 export const setUserLocationAction = (userLocation) => ({type: SET_USER_LOCATION, userLocation})
+
+export const showLoading = () => ({type: SHOW_LOADING});

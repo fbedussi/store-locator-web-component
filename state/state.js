@@ -7,6 +7,7 @@ export default {
         filterPanelOpen: false,
         resultPanelOpen: true,
         searchLayerOpen: false,
+        showLoading: false,
     },
     searchTerm: '',
     userLocation: null,

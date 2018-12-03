@@ -13,10 +13,13 @@ class LeftPanel extends HTMLElement {
     }
 
     connectedCallback() {
+        this.render();
         subscribePartialState('ui.searchLayerOpen', (state, oldState) => {
             this.className = getAnimationClass(state.ui.searchLayerOpen, oldState && oldState.ui.searchLayerOpen, ['hiddenLight', 'slide-in-left', '', 'slide-out-right'])
-        })
-        this.render();
+        });
+        subscribePartialState('ui.showLoading', (state) => {
+            this.loading.classList.toggle('show', state.ui.showLoading);
+        });
         this.addEventListener('animationend', function() {
             const state = getState();
             this.className = getAnimationClass(state.ui.searchLayerOpen, state.ui.searchLayerOpen, ['hiddenLight', 'slide-in-left', '', 'slide-out-right'])
@@ -67,10 +70,13 @@ class LeftPanel extends HTMLElement {
             <results-number></results-number>
             <filter-panel></filter-panel>
             <div class="storesAndStoreDetails">
-                <stores-list></stores-list>
-                <store-details></store-details>
+            <stores-list></stores-list>
+            <store-details></store-details>
             </div>
+            <div class="loading"></div>  
         `;
+                
+        this.loading = this.querySelector('.loading');
     }
 }
 

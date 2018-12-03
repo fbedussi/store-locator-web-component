@@ -12,6 +12,7 @@ import {
     UPDATE_SEARCH_TERM,
     TOGGLE_SEARCH_LAYER,
     RESET_SEARCH_TERM,
+    SHOW_LOADING,
 } from './actionTypes.js';
 import { setHashRoute } from '../history.js';
 
@@ -105,6 +106,10 @@ const reducer = (state, action) => {
         case RESET_SEARCH_TERM:
             return {
                 ...state,
+                ui: {
+                    ...state.ui,
+                    showLoading: false,
+                },
                 searchTerm: '',
                 stores: state.stores.map(setStoreVisibilityByFilters(state.filters)),
             }
@@ -195,6 +200,15 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 userLocation: action.center
+            }
+
+        case SHOW_LOADING:
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    showLoading: true,
+                }
             }
 
         default:
