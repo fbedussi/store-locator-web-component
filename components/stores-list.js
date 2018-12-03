@@ -1,5 +1,4 @@
 import { 
-    getState, 
     subscribePartialState, 
     dispatch 
 } from '../state/state-manager.js';
@@ -9,6 +8,7 @@ import {
 import { 
     extendComponent,
 } from '../wc-utils.js';
+import { throttle } from '../utils.js';
 import RightArrow from './icons/arrowRight.js';
 import PhoneIcon from './icons/phone.js';
 
@@ -19,21 +19,14 @@ class StoresList extends HTMLElement {
     }
     
     connectedCallback() {
-        subscribePartialState('stores', (state) => {
-          this.render(state.stores);
-        });
+        subscribePartialState('stores', throttle((state) => {
+            this.render(state.stores);
+        }, 900));
     }
 
     render(stores = []) {
         const storeNameCssClass = this.randomizeCssClass('storeName');
         const storePhoneCssClass = this.randomizeCssClass('storePhone');
-        const liStyle = (index) => `
-            ${index === 0 ? 'border-top: solid 1px lightgray;' : ''}
-            border-bottom: solid 1px lightgray;
-            padding: 1em 0;
-            display: flex;
-            justify-content: space-between;
-        `;
         
         this.innerHTML = /*html*/ `
             <style>

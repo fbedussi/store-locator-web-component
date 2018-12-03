@@ -29,7 +29,7 @@ class ResultsNumber extends HTMLElement {
             <style>
                 results-number {
                     padding: var(--padding);
-                }
+                }   
             </style>
             <div>${text}</div>
         `;

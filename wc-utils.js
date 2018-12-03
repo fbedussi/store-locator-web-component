@@ -119,14 +119,20 @@ export function extendComponent(clazz, attributes = []) {
         }
     }
 
+    function parseDomString(domStr) {
+        // const newDomParsed = parser.parseFromString(newDomStr, 'text/html');
+        // let newDomWithStyle = newDomParsed.body;
+        // if (newDomParsed.head.children.length) {
+        //     newDomWithStyle = newDomParsed.head;
+        //     [].forEach.call(newDomParsed.body.childNodes, (el) => newDomWithStyle.appendChild(el));
+        // }
+        // morphdom(this, newDomWithStyle, {childrenOnly: true});
+    
+        return document.createRange().createContextualFragment(domStr);
+    }
+
     clazz.prototype.html = function(newDomStr) {
-        const newDomParsed = parser.parseFromString(newDomStr, 'text/html');
-        let newDomWithStyle = newDomParsed.body;
-        if (newDomParsed.head.children.length) {
-            newDomWithStyle = newDomParsed.head;
-            [].forEach.call(newDomParsed.body.childNodes, (el) => newDomWithStyle.appendChild(el));
-        }
-        morphdom(this, newDomWithStyle, {childrenOnly: true});
+        morphdom(this, parseDomString(newDomStr), {childrenOnly: true});
     }
 
     clazz.prototype.renderChildComponent = function(componentTag) {

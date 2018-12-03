@@ -106,19 +106,21 @@ const reducer = (state, action) => {
             };
 
         case UPDATE_SEARCH_TERM:
-            const filters = {
-                ...state.filters,
-                search: action.searchTerm,
-                coords: null
-            }
+            {
+                const filters = {
+                    ...state.filters,
+                    search: action.searchTerm,
+                    coords: null
+                }
 
-            setHashRoute(filters);
-            numberOfVisibleStores = 0;
-            return {
-                ...state,
-                searchTerm: action.searchTerm,
-                stores: state.stores.map(setStoreVisibility(action.searchTerm, state.filters)),
-                numberOfVisibleStores,
+                setHashRoute(filters);
+                numberOfVisibleStores = 0;
+                return {
+                    ...state,
+                    searchTerm: action.searchTerm,
+                    stores: state.stores.map(setStoreVisibility(action.searchTerm, state.filters)),
+                    numberOfVisibleStores,
+                }
             }
 
         case RESET_SEARCH_TERM:

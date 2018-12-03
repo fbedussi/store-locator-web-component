@@ -100,6 +100,10 @@ class SeachBox extends HTMLElement {
         `);
     }
 
+    handleInput(ev) {
+        dispatch(updateSearchTermAction(ev.target.value));
+    }
+
     handleReset() {
         dispatch(resetSearchTermAction());
     }
@@ -123,9 +127,5 @@ class SeachBox extends HTMLElement {
           }
     }
 }
-
-SeachBox.prototype.handleInput = throttle(function(ev) {
-    dispatch(updateSearchTermAction(ev.target.value));
-}, 80);
 
 window.customElements.define('search-box', extendComponent(SeachBox));
