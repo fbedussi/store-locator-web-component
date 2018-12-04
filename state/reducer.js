@@ -97,18 +97,30 @@ const reducer = (state, action) => {
                 }
 
                 setHashRoute(filters);
+
                 return {
                     ...state,
                     searchTerm: action.searchTerm,
                     stores: state.stores.map(setStoreVisibility(action.searchTerm, state.filters)),
+                    filters,
                 }
             }
 
         case RESET_SEARCH_TERM:
-            return {
-                ...state,
-                searchTerm: '',
-                stores: state.stores.map(setStoreVisibilityByFilters(state.filters)),
+            {
+                const filters = {
+                    ...state.filters,
+                    search: null
+                }
+
+                setHashRoute(filters);
+
+                return {
+                    ...state,
+                    searchTerm: '',
+                    stores: state.stores.map(setStoreVisibilityByFilters(state.filters)),
+                    filters,
+                }
             }
 
         case TOGGLE_FILTER_PANEL:
@@ -126,7 +138,9 @@ const reducer = (state, action) => {
                     ...state.filters,
                     storeTypes: action.storeTypes,
                 };
+
                 setHashRoute(filters);
+                
                 return {
                     ...state,
                     stores: state.stores.map(setStoreVisibility(state.searchTerm, filters)),
@@ -140,7 +154,9 @@ const reducer = (state, action) => {
                     ...state.filters,
                     storeTypes: toggleStoreType(state.filters.storeTypes, action.storeTypeId),
                 };
+
                 setHashRoute(filters);
+                
                 return {
                     ...state,
                     stores: state.stores.map(setStoreVisibility(state.searchTerm, filters)),
@@ -154,7 +170,9 @@ const reducer = (state, action) => {
                     ...state.filters,
                     storeTypes: [],
                 };
+
                 setHashRoute(filters);
+
                 return {
                     ...state,
                     stores: state.stores.map(setStoreVisibilityBySearchTerm(state.searchTerm)),
@@ -180,10 +198,13 @@ const reducer = (state, action) => {
 
                 return {
                     ...state,
+                    searchTerm: '',
                     stores: state.stores.map(setStoreVisibilityByCoords(action.coords.ne, action.coords.sw)),
                     coordinates: action.coords,
+                    filters,
                 }
             }
+            
         case TOGGLE_SEARCH_LAYER:
             return {
                 ...state,
