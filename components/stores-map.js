@@ -9,6 +9,7 @@ class StoresMap extends HTMLElement {
 
     this.map = null;
     this.markers = [];
+    this.bootstrapMap = true;
     this.bootstrapBounds = false;
 
     const styleNode = document.createElement('style');
@@ -329,6 +330,12 @@ class StoresMap extends HTMLElement {
     }
 
     dispatchUpdatedCoords() { 
+        if(this.bootstrapMap) {
+            this.bootstrapMap = false;
+            
+            return;
+        }
+        
         if(this.bootstrapBounds) {
             this.bootstrapBounds = false;
 
