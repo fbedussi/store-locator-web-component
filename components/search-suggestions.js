@@ -31,7 +31,7 @@ class SearchSuggestions extends HTMLElement {
         const suggestionsToRender = thereAreSuggestions ? suggestions : this.oldSuggestions;
         this.oldSuggestions = suggestions;
         
-        this.html(/*HTML*/  `<collapsable-tab open=${thereAreSuggestions}>        
+        this.html(/*HTML*/`<collapsable-tab open=${thereAreSuggestions}>        
             <ul>
                 ${suggestionsToRender.map((suggestion) => `<li onclick="${this.getHandlerRef(this.handleSuggestionClick, suggestion.name)}">${suggestion.name}</li>`).join('')}
             </ul>  

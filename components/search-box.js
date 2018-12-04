@@ -52,7 +52,7 @@ class SeachBox extends HTMLElement {
                 left: 0;
                 width: 100%;
                 bottom: 0;
-                transform: translateY(calc(100% + 1px));
+                transform: translateY(calc(100% + 2px));
             }
             search-suggestions [open="true"] ul {
                 border: solid 1px lightgray;

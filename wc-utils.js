@@ -144,8 +144,13 @@ export function extendComponent(clazz, attributes = []) {
     }
 
     clazz.prototype.renderChildComponent = function(componentTag) {
-        const component = new (window.customElements.get(componentTag))();
-        component.render()
+        let component = this.querySelector(componentTag);
+        
+        if (!component) {
+            component = new (window.customElements.get(componentTag))();
+            component.render();
+        }
+
         return component.outerHTML;
     }
 
