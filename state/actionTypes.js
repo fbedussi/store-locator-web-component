@@ -27,3 +27,5 @@ export const SET_USER_LOCATION = "SET_USER_LOCATION";
 export const SHOW_LOADING = 'SHOW_LOADING';
 
 export const HIDE_LOADING = 'HIDE_LOADING';
+
+export const APPLY_FILTERS = 'APPLY_FILTERS';

@@ -4,16 +4,40 @@ import {
 import { 
     setStoreTypesAction,
     updateSearchTermAction,
+    updateCoordsAction,
 } from './state/actions.js';
 
 const keysMap = {
-    'store-type': {
+    'store-types': {
         action: setStoreTypesAction,
         formatValue: (value) => value[0].split(','),
     }, 
     'search': {
         action: updateSearchTermAction,
         formatValue: (value) => value[0],
+    },
+    'coords': {
+        action: updateCoordsAction,
+        formatValue: (value) => {
+            const center = value[0].split(',')
+            const ne = value[2].split(',')
+            const sw = value[4].split(',')
+
+            return {
+                center: {
+                    lat: center[0],
+                    lng: center[1]
+                },
+                ne: {
+                    lat: ne[0],
+                    lng: ne[1]
+                },
+                sw: {
+                    lat: sw[0],
+                    lng: sw[1]
+                }
+            }
+        }
     }
 }
 
@@ -40,15 +64,23 @@ export function setHashRoute(filters) {
 export function decodeRoute() {
     const segments = window.location.hash.slice(1).split('/');
     
-
     keys.forEach((key) => {
         if (segments.includes(key)) {
             const segmentsAfterKey = segments.slice(segments.indexOf(key) + 1);
-            const nextKeyIndex = keys.map((key) => segmentsAfterKey.indexOf(key)).filter((index) => index > -1).sort()[0] || segmentsAfterKey.length;
+            const nextKeyIndex = keys.map((k) => segmentsAfterKey.indexOf(k)).filter((index) => index > -1).sort()[0] || segmentsAfterKey.length;
             const value = segmentsAfterKey.slice(0, nextKeyIndex)
+            
             if (value.length) {
+                console.log(key, keysMap[key].formatValue(value));
+
                 dispatch(keysMap[key].action(keysMap[key].formatValue(value)));
             }
         }
     })
+}
+
+export function decodeHashRouter() {
+    const segments = window.location.hash.slice(1).split('/');
+
+
 }

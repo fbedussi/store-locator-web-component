@@ -1,6 +1,7 @@
 import { dispatch, getState, subscribePartialState } from '../state/state-manager.js';
 import MarkerClusterer from '../vendor/marker-clusterer.js';
 import { throttle } from '../utils.js';
+import { updateCoordsAction } from '../state/actions.js';
 
 class StoresMap extends HTMLElement {
   constructor() {
@@ -61,7 +62,7 @@ class StoresMap extends HTMLElement {
 
   bindEvents() {
     this.map.addListener('dragend', this.dispatchUpdatedCoords.bind(this));
-    this.map.addListener('zoom-update', this.dispatchUpdatedCoords.bind(this));
+    this.map.addListener('zoom_changed', this.dispatchUpdatedCoords.bind(this));
   }
 
   init() {
@@ -311,23 +312,22 @@ class StoresMap extends HTMLElement {
   }
 
   dispatchUpdatedCoords() {
-    dispatch({
-      type: 'UPDATE_COORDS',
-      coords: {
-        center: {
-          lat: this.map.center.lat(),
-          lng: this.map.center.lng()
-        },
-        ne: {
-          lat: this.map.getBounds().getNorthEast().lat(),
-          lng: this.map.getBounds().getNorthEast().lng()
-        },
-        sw: {
-          lat: this.map.getBounds().getSouthWest().lat(),
-          lng: this.map.getBounds().getSouthWest().lng()
-        }
+    const coords = {
+      center: {
+        lat: this.map.center.lat(),
+        lng: this.map.center.lng()
+      },
+      ne: {
+        lat: this.map.getBounds().getNorthEast().lat(),
+        lng: this.map.getBounds().getNorthEast().lng()
+      },
+      sw: {
+        lat: this.map.getBounds().getSouthWest().lat(),
+        lng: this.map.getBounds().getSouthWest().lng()
       }
-    });
+    };
+
+    dispatch(updateCoordsAction(coords));
   }
 }
 

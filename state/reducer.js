@@ -20,12 +20,37 @@ import { setHashRoute } from '../history.js';
 
 function setStoreVisibility(searchTerm, filters) {
     const searchTermLower = searchTerm.toLowerCase();
+    
     return function (store) {
         const visibleBySearchTerm = store.location.some((locationBit) => locationBit.toLowerCase().includes(searchTermLower));
         const visibleByFilters = store.storeTypes.some((storeType) => filters.storeTypes.includes(storeType.id));
 
         store.visible = ((!searchTerm.length || visibleBySearchTerm)
             && (!filters.storeTypes.length || visibleByFilters));
+
+        return store;
+    }
+}
+
+function storeIsInLocation(store, location) {
+    return store.location.some((locationBit) => locationBit.toLowerCase().includes(location.toLowerCase()))
+}
+
+function storeIsOfType(store, storeTypes) {
+    return store.storeTypes.some((storeType) => storeTypes.includes(storeType.id));
+}
+
+function storeIsInsideBoundaries(store, ne, sw) {
+    return ne.lat >= store.lat && store.lat >= sw.lat && ne.lng >= store.lng && store.lng >= sw.lng
+}
+
+function setStoreVisibilityFromFilters(filters) {
+    return function (store) {
+        const visibleBySearchTerm = !filters.search || storeIsInLocation(store, filters.search);
+        const visibleByFilters = !filters.storeTypes.length || storeIsOfType(store, filters.storeTypes);
+        const visibleByCoords = !filters.coords || storeIsInsideBoundaries(store, filters.coords.ne, filters.coords.sw);
+
+        store.visible = visibleBySearchTerm && visibleByFilters && visibleByCoords;
 
         return store;
     }
@@ -54,7 +79,7 @@ function setStoreVisibilityByFilters(filters) {
 
 function setStoreVisibilityByCoords(ne, sw) {
     return function (store) {
-        store.visible = ne.lat >= store.lat && store.lat >= sw.lat && ne.lng >= store.lng && store.lng >= sw.lng;
+        store.visible = storeIsInsideBoundaries(store, ne, sw);
 
         return store;
     }
@@ -62,9 +87,8 @@ function setStoreVisibilityByCoords(ne, sw) {
 
 function toggleStoreType(storeTypeIds, storeTypeId) {
     return storeTypeIds.includes(storeTypeId) ?
-        storeTypeIds.filter((id) => id !== storeTypeId)
-        : storeTypeIds.concat(storeTypeId)
-        ;
+           storeTypeIds.filter((id) => id !== storeTypeId) : 
+           storeTypeIds.concat(storeTypeId);
 }
 
 const reducer = (state, action) => {
@@ -204,7 +228,7 @@ const reducer = (state, action) => {
                     filters,
                 }
             }
-            
+
         case TOGGLE_SEARCH_LAYER:
             return {
                 ...state,

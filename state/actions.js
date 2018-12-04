@@ -1,18 +1,20 @@
 import {
+    APPLY_FILTERS,
+    HIDE_LOADING,
     LOAD_LOCATIONS,
     LOAD_STORE_TYPES,
     LOAD_STORES,
     OPEN_STORE_DETAILS,
+    RESET_SEARCH_TERM,
     RESET_STORE_TYPES,
     SET_USER_LOCATION,
     SET_STORE_TYPES,
+    SHOW_LOADING,
     TOGGLE_FILTER_PANEL,
     TOGGLE_SEARCH_LAYER,
     TOGGLE_STORE_TYPE,
     UPDATE_SEARCH_TERM,
-    RESET_SEARCH_TERM,
-    SHOW_LOADING,
-    HIDE_LOADING,
+    UPDATE_COORDS,
 } from './actionTypes.js';
 
 export const loadStoresAction = (stores) => ({ type: LOAD_STORES, stores });
@@ -47,3 +49,7 @@ export const setUserLocationAction = (userLocation) => ({type: SET_USER_LOCATION
 export const showLoadingAction = () => ({type: SHOW_LOADING});
 
 export const hideLoadingAction = () => ({type: HIDE_LOADING});
+
+export const updateCoordsAction = (coords) => ({type: UPDATE_COORDS, coords});
+
+export const applyFiltersAction = (filters) => ({type: APPLY_FILTERS, filters});
