@@ -6,11 +6,11 @@ import {
   updateSearchTermAction,
   resetSearchTermAction,
   setUserLocationAction,
+  actionWithLoading,
 } from '../state/actions.js';
 import {
     extendComponent,
 } from '../wc-utils.js';
-import { throttle } from '../utils.js';
 
 import './search-suggestions.js';
 import IconButton from './ui/icon-button.js';
@@ -105,7 +105,7 @@ class SeachBox extends HTMLElement {
     }
 
     handleReset() {
-        dispatch(resetSearchTermAction());
+        dispatch(actionWithLoading(resetSearchTermAction()));
     }
 
     handleGeoLocation() {

@@ -23,10 +23,12 @@ export const loadLocationsAction = (locations) => ({ type: LOAD_LOCATIONS, locat
 
 export const updateSearchTermAction = (searchTerm) => ({ type: UPDATE_SEARCH_TERM, searchTerm });
 
-export const resetSearchTermAction = () => (dispatch) => {
+export const actionWithLoading = (action) => (dispatch) => {
     dispatch(showLoadingAction());
-    setTimeout(() => dispatch({type: RESET_SEARCH_TERM}), 50);
+    setTimeout(() => dispatch(action), 50);
 };
+
+export const resetSearchTermAction = () => ({type: RESET_SEARCH_TERM});
 
 export const toggleFilterPanelAction = () => ({ type: TOGGLE_FILTER_PANEL });
 

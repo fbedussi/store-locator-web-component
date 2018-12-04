@@ -10,6 +10,7 @@ import {
     toggleFilterPanelAction, 
     resetStoreTypesAction,
     toggleStoreTypeAction,
+    actionWithLoading,
 } from '../state/actions.js';
 import defaultState from '../state/state.js';
 import './collapsable-tab.js';
@@ -103,7 +104,7 @@ class FilterPanel extends HTMLElement {
     }
 
     handleReset() {
-        dispatch(resetStoreTypesAction());
+        dispatch(actionWithLoading(resetStoreTypesAction()));
     }
 }
 

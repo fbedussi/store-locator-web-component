@@ -132,6 +132,10 @@ export function extendComponent(clazz, attributes = []) {
     }
 
     clazz.prototype.html = function(newDomStr) {
+        if (typeof this.componentWillUpdate === 'function') {
+            this.componentWillUpdate();
+        }
+
         morphdom(this, parseDomString(newDomStr), {childrenOnly: true});
 
         if (typeof this.componentDidUpdate === 'function') {
