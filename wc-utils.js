@@ -1,4 +1,16 @@
-var parser = new DOMParser();
+//var parser = new DOMParser();
+
+function parseDomString(domStr) {
+    // const newDomParsed = parser.parseFromString(newDomStr, 'text/html');
+    // let newDomWithStyle = newDomParsed.body;
+    // if (newDomParsed.head.children.length) {
+    //     newDomWithStyle = newDomParsed.head;
+    //     [].forEach.call(newDomParsed.body.childNodes, (el) => newDomWithStyle.appendChild(el));
+    // }
+    // morphdom(this, newDomWithStyle, {childrenOnly: true});
+
+    return document.createRange().createContextualFragment(domStr);
+}
 
 function convertFromString(attribute) {
     if (attribute === 'true') {
@@ -119,18 +131,6 @@ export function extendComponent(clazz, attributes = []) {
         }
     }
 
-    function parseDomString(domStr) {
-        // const newDomParsed = parser.parseFromString(newDomStr, 'text/html');
-        // let newDomWithStyle = newDomParsed.body;
-        // if (newDomParsed.head.children.length) {
-        //     newDomWithStyle = newDomParsed.head;
-        //     [].forEach.call(newDomParsed.body.childNodes, (el) => newDomWithStyle.appendChild(el));
-        // }
-        // morphdom(this, newDomWithStyle, {childrenOnly: true});
-    
-        return document.createRange().createContextualFragment(domStr);
-    }
-
     clazz.prototype.html = function(newDomStr) {
         if (typeof this.componentWillUpdate === 'function') {
             this.componentWillUpdate();
@@ -185,4 +185,14 @@ function getRandomString(length) {
     }
   
     return text;
+}
+
+export function sanitizeString(str) {
+	var temp = document.createElement('div');
+	temp.textContent = str;
+	return temp.innerHTML;
+};
+
+export function sanitize(strings, ...values) {
+    return strings.reduce((prev, next, i) => `${prev}${next}${sanitizeString(values[i])} || ''}`, '');
 }
