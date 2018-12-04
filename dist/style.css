@@ -1,0 +1,220 @@
+/*reset*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body:not(.keyboardNavigation) *:focus {
+    outline: none;
+}
+
+button,
+input {
+    background-color: transparent;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    border-radius: 0;
+    height: var(--input-height);
+}
+
+button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: lightgray;
+}
+
+svg {
+    stroke: black;
+    fill: black;
+    width: 100%;
+    height: 100%;
+}
+
+a {
+    color: slategray;
+}
+
+/*common styles*/
+:root {
+    --input-height: 2.5rem;
+    --padding: 0.5rem;
+    --desktop-min-width: 900px;
+    --loader-diameter: 30px;
+    --loader-thickness: 8px;
+    --loader-color: darkgrey;
+}
+
+.visuallyHidden {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.btn {
+    border: solid 1px lightgray;
+    display: inline-block;
+    padding: var(--padding);
+}
+
+.iconButton {
+    width: var(--input-height);
+    height: var(--input-height);
+    padding: var(--padding);
+}
+
+.iconButton svg {
+    width: 100%;
+    height: auto;
+}
+
+/*page layout*/
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+/*Animations*/
+store-list {
+    will-change: transform;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-105%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-out-right {
+    0% {
+        transform: translateX(0);        
+    }
+
+    100% {
+        transform: translateX(-105%);
+    }
+}
+
+.invisible {
+    opacity: 0;
+}
+
+.visible {
+    opacity: 1;
+}
+
+.fade-in {
+    animation: fade-in 0.3s forwards;
+}
+
+.fade-out {
+    animation: fade-out 0.3s forwards;
+}
+
+.slide-in-left {
+    animation: slide-in-left 0.3s forwards;
+}
+
+.slide-out-right {
+    animation: slide-out-right 0.4s forwards;
+}
+
+.hidden {
+    display: none !important;    
+}
+
+.hiddenLight {
+    visibility: hidden;
+}
+
+@keyframes rotation {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+.loading {
+    background: rgba(255,255,255,0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.loading.show {
+    height: 100%;
+    opacity: 1;
+}
+
+.loading > * {
+    position: relative;
+    z-index: 2;
+}
+ 
+.loading::before,
+.loading::after {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: var(--loader-diameter);
+    height: var(--loader-diameter);
+    top: calc(50% - var(--loader-diameter/2));
+    left: calc(50% - var(--loader-diameter/2));
+    border: solid var(--loader-thickness) transparent;
+    border-top-color: var(--loader-color);
+    border-right-color: var(--loader-color);
+    box-sizing: border-box;
+    border-radius: 50%;
+}
+    
+.loading::before {
+    animation: rotation 3s infinite;
+}
+    
+.loading::after {
+    animation: rotation 3s ease-in-out infinite;
+}

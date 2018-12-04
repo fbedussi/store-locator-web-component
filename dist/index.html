@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <button class="searchOpener" is="search-opener"></button>
+        <left-panel></left-panel>
+        <stores-map></stores-map>
+
+        <!-- load webcomponents loader, which dynamically loads only the necessary polyfills -->
+        <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+        <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
+        <script src="morphdom-umd.min.js"></script>
+        <script src="bundle.js" type="module"></script>
+    </body>
+</html>
