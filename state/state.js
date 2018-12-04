@@ -7,10 +7,11 @@ export default {
         filterPanelOpen: false,
         resultPanelOpen: true,
         searchLayerOpen: false,
-        showLoading: false,
+        showLoading: false,        
     },
     searchTerm: '',
     userLocation: null,
+    mapInitialCoords: null,
     openeStore: null,
     filters: {
         search: null,

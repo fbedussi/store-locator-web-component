@@ -1,36 +1,23 @@
 import {
+    APPLY_FILTERS,
+    HIDE_LOADING,
     LOAD_STORES,
     LOAD_STORE_TYPES,
     LOAD_LOCATIONS,
     OPEN_STORE_DETAILS,
     RESET_STORE_TYPES,
+    RESET_SEARCH_TERM,
+    SET_MAP_INITIAL_COORDS,
     SET_USER_LOCATION,
     SET_STORE_TYPES,
+    SHOW_LOADING,
     TOGGLE_FILTER_PANEL,
+    TOGGLE_SEARCH_LAYER,
     TOGGLE_STORE_TYPE,
     UPDATE_COORDS,
     UPDATE_SEARCH_TERM,
-    TOGGLE_SEARCH_LAYER,
-    RESET_SEARCH_TERM,
-    SHOW_LOADING,
-    HIDE_LOADING,
 } from './actionTypes.js';
 import { setHashRoute } from '../history.js';
-
-
-function setStoreVisibility(searchTerm, filters) {
-    const searchTermLower = searchTerm.toLowerCase();
-    
-    return function (store) {
-        const visibleBySearchTerm = store.location.some((locationBit) => locationBit.toLowerCase().includes(searchTermLower));
-        const visibleByFilters = store.storeTypes.some((storeType) => filters.storeTypes.includes(storeType.id));
-
-        store.visible = ((!searchTerm.length || visibleBySearchTerm)
-            && (!filters.storeTypes.length || visibleByFilters));
-
-        return store;
-    }
-}
 
 function storeIsInLocation(store, location) {
     return store.location.some((locationBit) => locationBit.toLowerCase().includes(location.toLowerCase()))
@@ -41,7 +28,7 @@ function storeIsOfType(store, storeTypes) {
 }
 
 function storeIsInsideBoundaries(store, ne, sw) {
-    return ne.lat >= store.lat && store.lat >= sw.lat && ne.lng >= store.lng && store.lng >= sw.lng
+    return ne.lat >= Number(store.lat) && Number(store.lat) >= sw.lat && ne.lng >= Number(store.lng) && Number(store.lng) >= sw.lng
 }
 
 function setStoreVisibilityFromFilters(filters) {
@@ -56,35 +43,6 @@ function setStoreVisibilityFromFilters(filters) {
     }
 }
 
-function setStoreVisibilityBySearchTerm(searchTerm) {
-    const searchTermLower = searchTerm.toLowerCase();
-    return function (store) {
-        const visibleBySearchTerm = store.location.some((locationBit) => locationBit.toLowerCase().includes(searchTermLower));
-
-        store.visible = visibleBySearchTerm;
-
-        return store;
-    }
-}
-
-function setStoreVisibilityByFilters(filters) {
-    return function (store) {
-        const visibleByFilters = store.storeTypes.some((storeType) => filters.storeTypes.includes(storeType.id));
-
-        store.visible = !filters.storeTypes.length || visibleByFilters;
-
-        return store;
-    }
-}
-
-function setStoreVisibilityByCoords(ne, sw) {
-    return function (store) {
-        store.visible = storeIsInsideBoundaries(store, ne, sw);
-
-        return store;
-    }
-}
-
 function toggleStoreType(storeTypeIds, storeTypeId) {
     return storeTypeIds.includes(storeTypeId) ?
            storeTypeIds.filter((id) => id !== storeTypeId) : 
@@ -94,7 +52,8 @@ function toggleStoreType(storeTypeIds, storeTypeId) {
 const reducer = (state, action) => {
     switch (action.type) {
         case LOAD_STORES:
-            const visibleStores = action.stores.map(setStoreVisibility(state.searchTerm, state.filters));
+            const visibleStores = action.stores.map(setStoreVisibilityFromFilters(state.filters));
+
             return {
                 ...state,
                 stores: visibleStores,
@@ -125,7 +84,7 @@ const reducer = (state, action) => {
                 return {
                     ...state,
                     searchTerm: action.searchTerm,
-                    stores: state.stores.map(setStoreVisibility(action.searchTerm, state.filters)),
+                    stores: state.stores.map(setStoreVisibilityFromFilters(filters)),
                     filters,
                 }
             }
@@ -142,7 +101,7 @@ const reducer = (state, action) => {
                 return {
                     ...state,
                     searchTerm: '',
-                    stores: state.stores.map(setStoreVisibilityByFilters(state.filters)),
+                    stores: state.stores.map(setStoreVisibilityFromFilters(filters)),
                     filters,
                 }
             }
@@ -167,7 +126,7 @@ const reducer = (state, action) => {
                 
                 return {
                     ...state,
-                    stores: state.stores.map(setStoreVisibility(state.searchTerm, filters)),
+                    stores: state.stores.map(setStoreVisibilityFromFilters(filters)),
                     filters,
                 }
             }
@@ -183,7 +142,7 @@ const reducer = (state, action) => {
                 
                 return {
                     ...state,
-                    stores: state.stores.map(setStoreVisibility(state.searchTerm, filters)),
+                    stores: state.stores.map(setStoreVisibilityFromFilters(filters)),
                     filters,
                 }
             }
@@ -199,7 +158,7 @@ const reducer = (state, action) => {
 
                 return {
                     ...state,
-                    stores: state.stores.map(setStoreVisibilityBySearchTerm(state.searchTerm)),
+                    stores: state.stores.map(setStoreVisibilityFromFilters(filters)),
                     filters,
                 }
             }
@@ -223,8 +182,7 @@ const reducer = (state, action) => {
                 return {
                     ...state,
                     searchTerm: '',
-                    stores: state.stores.map(setStoreVisibilityByCoords(action.coords.ne, action.coords.sw)),
-                    coordinates: action.coords,
+                    stores: state.stores.map(setStoreVisibilityFromFilters(filters)),
                     filters,
                 }
             }
@@ -260,6 +218,20 @@ const reducer = (state, action) => {
                     ...state.ui,
                     showLoading: false,
                 }
+            }
+
+        case APPLY_FILTERS:
+            return {
+                ...state,
+                searchTerm: action.filters.search || '',
+                stores: state.stores.map(setStoreVisibilityFromFilters(action.filters)),
+                filters: action.filters,
+            }
+
+        case SET_MAP_INITIAL_COORDS:
+            return {
+                ...state,
+                mapInitialCoords: action.coords,
             }
 
         default:

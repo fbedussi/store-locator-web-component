@@ -7,6 +7,7 @@ import {
     OPEN_STORE_DETAILS,
     RESET_SEARCH_TERM,
     RESET_STORE_TYPES,
+    SET_MAP_INITIAL_COORDS,
     SET_USER_LOCATION,
     SET_STORE_TYPES,
     SHOW_LOADING,
@@ -53,3 +54,5 @@ export const hideLoadingAction = () => ({type: HIDE_LOADING});
 export const updateCoordsAction = (coords) => ({type: UPDATE_COORDS, coords});
 
 export const applyFiltersAction = (filters) => ({type: APPLY_FILTERS, filters});
+
+export const setMapInitialCoords = (coords) => ({type: SET_MAP_INITIAL_COORDS, coords});

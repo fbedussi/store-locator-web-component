@@ -2,6 +2,8 @@ import {
     dispatch, 
 } from './state/state-manager.js';
 import { 
+    applyFiltersAction,
+    setMapInitialCoords,
     setStoreTypesAction,
     updateSearchTermAction,
     updateCoordsAction,
@@ -10,14 +12,17 @@ import {
 const keysMap = {
     'store-types': {
         action: setStoreTypesAction,
+        filterKey: 'storeTypes',
         formatValue: (value) => value[0].split(','),
     }, 
     'search': {
         action: updateSearchTermAction,
+        filterKey: 'search',
         formatValue: (value) => value[0],
     },
     'coords': {
         action: updateCoordsAction,
+        filterKey: 'coords',
         formatValue: (value) => {
             const center = value[0].split(',')
             const ne = value[2].split(',')
@@ -25,16 +30,16 @@ const keysMap = {
 
             return {
                 center: {
-                    lat: center[0],
-                    lng: center[1]
+                    lat: Number(center[0]),
+                    lng: Number(center[1])
                 },
                 ne: {
-                    lat: ne[0],
-                    lng: ne[1]
+                    lat: Number(ne[0]),
+                    lng: Number(ne[1])
                 },
                 sw: {
-                    lat: sw[0],
-                    lng: sw[1]
+                    lat: Number(sw[0]),
+                    lng: Number(sw[1])
                 }
             }
         }
@@ -64,6 +69,12 @@ export function setHashRoute(filters) {
 export function decodeRoute() {
     const segments = window.location.hash.slice(1).split('/');
     
+    let filters = {
+        search: null,
+        storeTypes: [],
+        coords: null,
+    };
+
     keys.forEach((key) => {
         if (segments.includes(key)) {
             const segmentsAfterKey = segments.slice(segments.indexOf(key) + 1);
@@ -71,16 +82,11 @@ export function decodeRoute() {
             const value = segmentsAfterKey.slice(0, nextKeyIndex)
             
             if (value.length) {
-                console.log(key, keysMap[key].formatValue(value));
-
-                dispatch(keysMap[key].action(keysMap[key].formatValue(value)));
+                filters[keysMap[key].filterKey] = keysMap[key].formatValue(value)
             }
         }
-    })
-}
+    });
 
-export function decodeHashRouter() {
-    const segments = window.location.hash.slice(1).split('/');
-
-
+    dispatch(applyFiltersAction(filters));
+    dispatch(setMapInitialCoords(filters.coords));
 }
