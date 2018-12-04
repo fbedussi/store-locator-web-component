@@ -10,6 +10,7 @@ import {
 } from '../state/actions.js';
 import {
     extendComponent,
+    sanitizeString,
 } from '../wc-utils.js';
 
 import './search-suggestions.js';
@@ -101,7 +102,7 @@ class SeachBox extends HTMLElement {
     }
 
     handleInput(ev) {
-        dispatch(updateSearchTermAction(ev.target.value));
+        dispatch(updateSearchTermAction(sanitizeString(ev.target.value)));
     }
 
     handleReset() {
