@@ -1,19 +1,19 @@
 import { dispatch, getState, subscribePartialState } from '../state/state-manager.js';
 import MarkerClusterer from '../vendor/marker-clusterer.js';
-import { throttle } from '../utils.js';
+import { debounce, throttle } from '../utils.js';
 import { updateCoordsAction } from '../state/actions.js';
 
 class StoresMap extends HTMLElement {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-    this.map = null;
-    this.markers = [];
-    this.bootstrapMap = true;
-    this.bootstrapBounds = false;
+        this.map = null;
+        this.markers = null;
+        this.bootstrapMap = true;
+        this.bootstrapBounds = false;
 
-    const styleNode = document.createElement('style');
-    styleNode.textContent = `
+        const styleNode = document.createElement('style');
+        styleNode.textContent = `
             :host {
               position: relative;
             }
@@ -44,28 +44,27 @@ class StoresMap extends HTMLElement {
                 margin: 8px!important;
             }
         `;
-    this.appendChild(styleNode);
 
-    this.mapElement = document.createElement('div');
-    this.mapElement.classList = 'map';
+        this.appendChild(styleNode);
 
-    this.appendChild(this.mapElement);
-  }
+        this.mapElement = document.createElement('div');
+        this.mapElement.classList = 'map';
 
-  connectedCallback() {
-    window.initGoogleMap = this.init.bind(this);
-
-    const googleMapsJsNode = document.createElement('script');
-    googleMapsJsNode.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCRTnC96aFUTP62mNuxDBUoHcLvR35MLOI&callback=initGoogleMap';
-    this.appendChild(googleMapsJsNode);
-  }
-
-    bindEvents() {
-        this.map.addListener('bounds_changed', this.dispatchUpdatedCoords.bind(this));
+        this.appendChild(this.mapElement);
     }
 
-    unbindEvents() {
-        google.maps.event.clearListeners(this.map, 'bounds_changed');
+    connectedCallback() {
+        window.initGoogleMap = this.init.bind(this);
+
+        const googleMapsJsNode = document.createElement('script');
+        googleMapsJsNode.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCRTnC96aFUTP62mNuxDBUoHcLvR35MLOI&callback=initGoogleMap';
+        this.appendChild(googleMapsJsNode);
+    }
+
+    bindEvents() {
+        // this.map.addListener('dragend', this.dispatchUpdatedCoords.bind(this));
+        // this.map.addListener('zoom_changed', this.dispatchUpdatedCoords.bind(this));
+        this.map.addListener('bounds_changed', debounce(this.dispatchUpdatedCoords.bind(this), 300));
     }
 
     init() {
@@ -261,12 +260,43 @@ class StoresMap extends HTMLElement {
             }
         });
 
-        subscribePartialState(['stores'], throttle(state => {
+        subscribePartialState(['stores'], debounce(state => {
+            if (!state.stores.length) {
+                return;
+            }
+
             this.stores = state.stores;
 
-            this.resetMarkers();
-            this.setMarkers();
-        }, 100));
+            if (!this.markers) {
+                this.markers = {};
+
+                this.stores.forEach(store => {
+                    const marker = new google.maps.Marker({
+                        map: this.map,
+                        position: { lat: Number(store.lat), lng: Number(store.lng) },
+                        title: store.post_title
+                    });
+                    marker.setVisible(store.visible)
+                    this.markers[store.id] = marker;
+                });
+
+                this.markerCluster = new MarkerClusterer(this.map, this.markers, {
+                    gridSize: 40,
+                    ignoreHidden: true,
+                    styles: [{
+                        url: 'https://media.yoox.biz/ytos/resources/BALMAIN/Images/icons/pinmap-cluster.svg',
+                        width: 35,
+                        height: 35
+                    }]
+                });                
+            } else {
+                this.stores.forEach(store => this.markers[store.id].setVisible(store.visible) );
+
+                if (this.markerCluster) {
+                    this.markerCluster.repaint();
+                }
+            }
+        }, 300));
 
         subscribePartialState('userLocation', (state) => {
             if(state.geolocation) {
