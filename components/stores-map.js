@@ -62,8 +62,6 @@ class StoresMap extends HTMLElement {
     }
 
     bindEvents() {
-        // this.map.addListener('dragend', this.dispatchUpdatedCoords.bind(this));
-        // this.map.addListener('zoom_changed', this.dispatchUpdatedCoords.bind(this));
         this.map.addListener('bounds_changed', debounce(this.dispatchUpdatedCoords.bind(this), 100));
     }
 
@@ -322,41 +320,6 @@ class StoresMap extends HTMLElement {
         });
 
         this.bindEvents();
-    }
-
-    setMarkers() {
-        if (!this.map) {
-            return;
-        }
-
-        this.markers = this.stores.filter((store) => store.visible).map(store => {
-            return new google.maps.Marker({
-                map: this.map,
-                position: { lat: Number(store.lat), lng: Number(store.lng) },
-                title: store.post_title
-            });
-        });
-
-        this.markerCluster = new MarkerClusterer(this.map, this.markers, {
-            gridSize: 40,
-            styles: [{
-                url: 'https://media.yoox.biz/ytos/resources/BALMAIN/Images/icons/pinmap-cluster.svg',
-                width: 35,
-                height: 35
-            }]
-        });
-    }
-
-    resetMarkers() {
-        if (this.markerCluster) {
-            this.markerCluster.clearMarkers();
-        }
-
-        this.markers.map((marker) => {
-            marker.setMap(null);
-        });
-
-        this.markers = [];
     }
 
     dispatchUpdatedCoords() { 
