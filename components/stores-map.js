@@ -64,7 +64,7 @@ class StoresMap extends HTMLElement {
     bindEvents() {
         // this.map.addListener('dragend', this.dispatchUpdatedCoords.bind(this));
         // this.map.addListener('zoom_changed', this.dispatchUpdatedCoords.bind(this));
-        this.map.addListener('bounds_changed', debounce(this.dispatchUpdatedCoords.bind(this), 300));
+        this.map.addListener('bounds_changed', debounce(this.dispatchUpdatedCoords.bind(this), 100));
     }
 
     init() {
@@ -296,7 +296,7 @@ class StoresMap extends HTMLElement {
                     this.markerCluster.repaint();
                 }
             }
-        }, 300));
+        }, 100));
 
         subscribePartialState('userLocation', (state) => {
             if(state.geolocation) {
