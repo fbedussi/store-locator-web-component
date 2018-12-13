@@ -62,7 +62,9 @@ class StoresMap extends HTMLElement {
     }
 
     bindEvents() {
-        this.map.addListener('bounds_changed', debounce(this.dispatchUpdatedCoords.bind(this), 100));
+        this.map.addListener('dragend', debounce(this.dispatchUpdatedCoords.bind(this), 100));
+        this.map.addListener('zoom_changed', debounce(this.dispatchUpdatedCoords.bind(this), 100));
+        // this.map.addListener('bounds_changed', debounce(this.dispatchUpdatedCoords.bind(this), 100));
     }
 
     init() {
@@ -323,15 +325,9 @@ class StoresMap extends HTMLElement {
     }
 
     dispatchUpdatedCoords() { 
-        if(this.bootstrapMap) {
-            this.bootstrapMap = false;
-            
-            return;
-        }
-        
         if(this.bootstrapBounds) {
             this.bootstrapBounds = false;
-
+            
             return;
         }
         
